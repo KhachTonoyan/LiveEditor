@@ -1,0 +1,22 @@
+
+#app{
+    width: 100%;
+    height: 100%;
+    background-color: aquamarine;
+    display: flex;
+}
+#explorer{
+    width: 200px;
+    height: 800px;
+    border: 1px solid black;
+}
+#container{
+    width: 800px;
+    height: 800px;
+    border: 1px solid black;
+}
+#tab{
+    width: 100%;
+    height: 30px;
+    border: 1px solid black;
+}
