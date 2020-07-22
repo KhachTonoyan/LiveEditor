@@ -1,11 +1,16 @@
-function createElement(tagName,id,className){
-    const element = document.createElement(tagName)
-    if(id) element.id = id
-    if(className) element.classList.add(className)
+function createElement(tagName, id, className) {
+    const element = document.createElement(tagName);
+    if (id) element.id = id;
+    if (className) element.classList.add(className);
+
     return element
 }
 
-const isFile = element => element.id === "file"
+function getElement(id) {
+    return document.getElementById(id)
+}
+
+const isFile = element => element.id === "file";
 
 
-export {createElement,isFile}
+export {createElement, getElement, isFile}
