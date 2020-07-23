@@ -21,9 +21,9 @@
     border: 1px solid black;
 }
 
-.root {
+/* .root {
 
-}
+} */
 
 .root ul {
     padding-left: 20px;
@@ -44,6 +44,11 @@
     height: 300px;
     background-color: black;
   }
+#terminalBtn{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 .log{
     width:100%;
     width: all;
@@ -65,4 +70,15 @@
 .logP{
     display: inline-block;
     width: 75%;
+  }
+  #closeTerminal{
+    right: 0;
+    position: absolute;
+    width: 20px;
+  }
+  .main{
+    margin: 5px;
+  }
+  .termNav{
+    position: relative;
   }
