@@ -10,6 +10,7 @@
     border: 1px solid black;
 }
 #container{
+    position: relative;
     width: 800px;
     height: 800px;
     border: 1px solid black;
@@ -20,9 +21,9 @@
     border: 1px solid black;
 }
 
-.root {
+/* .root {
 
-}
+} */
 
 .root ul {
     padding-left: 20px;
@@ -32,3 +33,52 @@
 .selected {
     background-color: rgba(148, 175, 255, 0.87)
 }
+
+#terminal{
+    display: none;
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    overflow: scroll;
+    height: 300px;
+    background-color: black;
+  }
+#terminalBtn{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.log{
+    width:100%;
+    width: all;
+    border: none;
+    color:green;
+    background-color:black;
+    font-weight:1000
+  }
+.log:focus{
+    border: none;
+    outline: none;
+  }
+.path{
+    display: inline-block;
+    width: auto;
+    color:green;
+    font-weight:1000
+  }
+.logP{
+    display: inline-block;
+    width: 75%;
+  }
+  #closeTerminal{
+    right: 0;
+    position: absolute;
+    width: 20px;
+  }
+  .main{
+    margin: 5px;
+  }
+  .termNav{
+    position: relative;
+  }
