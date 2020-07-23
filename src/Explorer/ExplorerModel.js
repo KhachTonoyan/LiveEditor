@@ -1,34 +1,22 @@
-import File from "../Entities/File.js"
-import Folder from "../Entities/Folder.js"
-import {isFile, getActiveParent} from "./helper.js"
+import {getActiveParent} from "./helper.js"
+import state from '../State/State.js'
+// const removeButton = document.getElementById('removeFile');
+
 
 class ExplorerModel {
     constructor() {
-        this.root = new Folder('root', null, {}, 'root');
+        this.root = state.root;
         this.active = this.root;
+
+        // removeButton.onclick = () => {
+        //     state.remove(this.active)
+        //     console.log(this.root, 'root from model')
+        // }
     }
-
-    onCreate = (name, type) => {
-        if (isFile(this.active)) {
-            this.active = this.active.parent
-        }
-        if (type === "file") {
-            this.active.children[name] = new File(name, this.active);
-        } else if (type === "folder") {
-            this.active.children[name] = new Folder(name, this.active)
-        }
-
-        this.renderExplorer()
-    };
 
     create = (name, type) => {
         let activeFolder = getActiveParent(this.active); // folder is returned
-
-        if(type === 'file') {
-            activeFolder.children[name] = new File(name, activeFolder)
-        } else {
-            activeFolder.children[name] = new Folder(name, activeFolder)
-        }
+        state.create(name, type, activeFolder);
 
         this.renderExplorer()
     };

@@ -1,6 +1,4 @@
 import {createElement, getElement} from "./helper.js"
-import File from '../Entities/File.js'
-import Folder from '../Entities/Folder.js'
 
 const createFile = document.getElementById("createFile");
 const createFolder = document.getElementById("createFolder");
@@ -47,7 +45,7 @@ class ExplorerView {
             if(rootObj) {
                 let keys = Object.keys(rootObj.children);
                 for(let key of keys) {
-                    if(rootObj.children[key] instanceof File) {
+                    if(rootObj.children[key].type === 'file') {
                         const listFileItem = document.createElement('li');
                         listFileItem.setAttribute('data-name', key);
                         listFileItem.addEventListener('click', self.highlightActive);
