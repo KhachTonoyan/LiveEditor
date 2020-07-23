@@ -18,7 +18,7 @@ class State {
 
     create = (name, type, active) => {
         let activeFolder = getActiveParent(active); // folder is returned
-
+        if(activeFolder.children[name]) return false
         if(type === 'file') {
             activeFolder.children[name] = new File(name, activeFolder)
         } else {
@@ -26,12 +26,15 @@ class State {
         }
 
         this.updateUI()
+        return true
     };
 
     remove = active => {
+        if(!active.parent.children[active.name]) return false
         delete active.parent.children[active.name];
 
         this.updateUI()
+        return true
     }
 
     move() {

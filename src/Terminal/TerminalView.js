@@ -32,16 +32,13 @@ class TerminalView {
         main.classList.add("main")
         main.innerHTML = `
                             <p class="path">${path}</p>
-                            <p class="logP"><input class="log activLog" maxlength="60"/></p>
+                            ${ ok === undefined ? '<p class="logP"><input class="log activLog" maxlength="60"/></p>' : ""}
                          `
         this.terminalContent.append(main)
         this.activInput = main.querySelector(".activLog")
-        this.activInput.focus()
-        this.activInput.onkeyup = this.hendleInput
-        if (ok === false && this.activInput) {
-            this.activInput.classList.remove("activLog")
-            this.activInput.disabled = "disabled"
-            this.activInput = null
+        if (this.activInput) {
+            this.activInput.focus()
+            this.activInput.onkeyup = this.hendleInput
         }
     }
 
@@ -59,12 +56,12 @@ class TerminalView {
 
     do = (value) => {
         const commandsArray = value.split(" ")
-        if (commandsArray.length !== 2) {
+        if (commandsArray.length == !2 && commandsArray.length == !3) {
             this.putPath("it's don't correct command", false)
             this.putPath(this.getPath() + ">")
         }
         else {
-            const [first, second] = commandsArray
+            const [first, second, third] = commandsArray
             switch (first) {
                 case "cd":
                     {
@@ -93,13 +90,33 @@ class TerminalView {
                         let res = this.runFile(second)
                         if (res === false) {
                             this.putPath(`Don't found file ${second}`, res)
-                            this.putPath(this.getPath() + ">")
                         }
                         else {
                             this.putPath(res, false)
-                            this.putPath(this.getPath() + ">")
                         }
+                        this.putPath(this.getPath() + ">")
 
+                    }
+                    break;
+                case "create":
+                    {
+                        if ((second === "file" || second === "folder") && third === undefined) {
+                            this.putPath("Please writh file or folder name", false)
+                        }
+                        else if (second === "file" || second === "folder") {
+                            this.putPath(this.create(second, third), false)
+                        }
+                        else {
+                            this.putPath("You can create only file or folder", false)
+                        }
+                        this.putPath(this.getPath() + ">")
+                    }
+                    break;
+                case "delete":
+                    {
+                        if (this.remove(second)) this.putPath(`${second} deleted`, false)
+                        else this.putPath(`${second} don't found in this folder`, false)
+                        this.putPath(this.getPath() + ">")
                     }
                     break;
                 default:
@@ -117,6 +134,12 @@ class TerminalView {
     }
     bindRunFile = (cb) => {
         this.runFile = cb
+    }
+    bindCreate = (cb) => {
+        this.create = cb
+    }
+    bindRemove = (cb) => {
+        this.remove = cb
     }
 }
 

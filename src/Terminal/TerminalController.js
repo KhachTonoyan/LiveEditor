@@ -10,6 +10,8 @@ class TerminalController {
         this.view.bindPathAction(this.model.changeLocation)
         this.view.bindOpenFile(this.model.openFile)
         this.view.bindRunFile(this.model.runFile)
+        this.view.bindCreate(this.model.create)
+        this.view.bindRemove(this.model.remove)
     }
 }
 
