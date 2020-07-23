@@ -1,33 +1,11 @@
 import File from "../Entities/File.js"
 import Folder from "../Entities/Folder.js"
-import {isFile} from "./helper.js"
+import {isFile, getActiveParent} from "./helper.js"
 
 class ExplorerModel {
     constructor() {
-        this.root = {
-            // src: {
-            //     components: {
-            //         addons: {},
-            //         admin: {},
-            //         block: {
-            //             'index.js': true
-            //         }
-            //     },
-            //     containers: {},
-            //     layouts: {},
-            //     services: {},
-            //     'app.js': true,
-            //     'app.css': true
-            // },
-            // public: {
-            //     img: {}
-            // },
-            // node_modules: {},
-            // 'package.json': true,
-            // '.env': true
-
-        };
-        this.active = this.root
+        this.root = new Folder('root', null, {}, 'root');
+        this.active = this.root;
     }
 
     onCreate = (name, type) => {
@@ -35,24 +13,38 @@ class ExplorerModel {
             this.active = this.active.parent
         }
         if (type === "file") {
-            this.active[name] = new File(name, this.active);
-
+            this.active.children[name] = new File(name, this.active);
         } else if (type === "folder") {
-            this.active[name] = new Folder(name, this.active)
+            this.active.children[name] = new Folder(name, this.active)
         }
 
         this.renderExplorer()
-        console.log(this.root)
-    }
+    };
 
-    setActiveElement(path) {
-        //path [file]
-        this.active = this.root[path[0]]
+    create = (name, type) => {
+        let activeFolder = getActiveParent(this.active); // folder is returned
+
+        if(type === 'file') {
+            activeFolder.children[name] = new File(name, activeFolder)
+        } else {
+            activeFolder.children[name] = new Folder(name, activeFolder)
+        }
+
+        this.renderExplorer()
+    };
+
+    setActive(path) {
+        let active = this.root;
+        for(const key of path) {
+            active = active.children[key]
+        }
+        this.active = active;
     }
 
     bindRenderExplorer(cb) {
         this.renderExplorer = cb
     }
+
 }
 
 export default ExplorerModel
