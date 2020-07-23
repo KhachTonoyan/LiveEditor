@@ -1,5 +1,6 @@
 import SearchModel from "./SearchModel.js"
 import SearchView from "./SearchView.js"
+import State from '../State/State.js'
 
 class Controller {
     constructor(view, model) {
@@ -14,7 +15,8 @@ class Controller {
 
         document.getElementById("app").addEventListener('click', (event) => {
             if(event.target.id === "go"){
-                this.model.search();
+                const pattern = document.getElementById("searchInput").value;
+                this.model.search(State.root, pattern);
             }
         })
     }

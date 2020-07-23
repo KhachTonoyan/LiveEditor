@@ -1,8 +1,4 @@
 class SearchView {
-    constructor() {
-
-    }
-
     openSearchWindow() {
         const searchPanel = document.createElement("div");
         searchPanel.className = "searchPanel";

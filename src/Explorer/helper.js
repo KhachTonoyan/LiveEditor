@@ -12,5 +12,9 @@ function getElement(id) {
 
 const isFile = element => element.id === "file";
 
+function getActiveParent(el) {
+    if(el.type === 'folder') return el;
+    return el.parent
+}
 
-export {createElement, getElement, isFile}
+export {createElement, getElement, isFile, getActiveParent}
