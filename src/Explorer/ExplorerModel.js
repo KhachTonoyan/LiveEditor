@@ -1,6 +1,6 @@
 import {getActiveParent} from "./helper.js"
 import state from '../State/State.js'
-// const removeButton = document.getElementById('removeFile');
+const removeButton = document.getElementById('removeFile');
 
 
 class ExplorerModel {
@@ -8,17 +8,22 @@ class ExplorerModel {
         this.root = state.root;
         this.active = this.root;
 
-        // removeButton.onclick = () => {
-        //     state.remove(this.active)
-        //     console.log(this.root, 'root from model')
-        // }
+        removeButton.onclick = () => {
+            this.remove(this.active)
+        }
+
+        console.log(this.renderExplorer)
     }
 
     create = (name, type) => {
         let activeFolder = getActiveParent(this.active); // folder is returned
-        state.create(name, type, activeFolder);
+        state.create(name, type, activeFolder)
+    };
 
-        this.renderExplorer()
+    remove = (active) => {
+        this.active = active.parent;
+        state.remove(active);
+        console.log(this.active, 'active after remove')
     };
 
     setActive(path) {
@@ -30,7 +35,8 @@ class ExplorerModel {
     }
 
     bindRenderExplorer(cb) {
-        this.renderExplorer = cb
+        this.renderExplorer = cb;
+        state.bindRenderExplorer(this.renderExplorer)
     }
 
 }

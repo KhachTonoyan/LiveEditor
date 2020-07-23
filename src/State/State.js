@@ -2,9 +2,18 @@ import File from '../Entities/File.js'
 import Folder from '../Entities/Folder.js'
 import {getActiveParent} from "../Explorer/helper.js";
 
+// some mock data
+const root = new Folder("root", null, null, "root");
+const ch = new Folder("src", root);
+root.children = { "index.js": new File("index.js", root, "alert('hello world')"), "src": ch };
+ch.children = { "data": new Folder("data", {}) };
+root.children.src.children.data.parent = root.children.src;
+
+
 class State {
     constructor() {
-        this.root = new Folder('root', null, null, 'root');
+        // this.root = new Folder('root', null, null, 'root');
+        this.root = root
     }
 
     create = (name, type, active) => {
@@ -16,17 +25,19 @@ class State {
             activeFolder.children[name] = new Folder(name, activeFolder)
         }
 
-        // updateUI()
+        this.updateUI()
     };
 
-    remove(active) {
+    remove = active => {
         delete active.parent.children[active.name];
 
-        // updateUI()
+        this.updateUI()
     }
 
     move() {
         //...
+
+        //this.updateUI()
     }
 
     open() {
@@ -43,16 +54,19 @@ class State {
 
     rename() {
         //...
+
+        //this.updateUI()
     }
 
 
-    // updateUI() {
-    //    ...
-    // }
+    updateUI() {
+        this.renderExplorer()
+        // ... other function that will update ui anywhere
+    }
 
-    // bindRenderExplorer() {
-    //
-    // }
+    bindRenderExplorer(cb) {
+        this.renderExplorer = cb
+    }
 }
 
 export default new State()
