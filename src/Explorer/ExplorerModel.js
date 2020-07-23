@@ -41,7 +41,7 @@ class ExplorerModel {
             this.active[name] = new Folder(name, this.active)
         }
 
-        this.renderExplorer()
+        // this.renderExplorer()
         console.log(this.root)
     }
 

@@ -4,16 +4,19 @@
     background-color: aquamarine;
     display: flex;
 }
+
 #explorer{
     width: 200px;
     height: 800px;
     border: 1px solid black;
 }
+
 #container{
     width: 800px;
     height: 800px;
     border: 1px solid black;
 }
+
 #tab{
     width: 100%;
     height: 30px;
@@ -31,4 +34,18 @@
 
 .selected {
     background-color: rgba(148, 175, 255, 0.87)
+}
+
+
+/*search*/
+
+.searchPanel{
+  background-color: #1e1e1e;
+  color: #0e6b0e;
+  width: 700px;
+  height: 400px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
