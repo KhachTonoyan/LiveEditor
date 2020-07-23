@@ -8,10 +8,9 @@ class ExplorerController {
 
         this.view.renderExplorer(this.model.root, this.view.list);
 
-        this.view.bindOnCreate(this.model.onCreate);
-        this.model.bindRenderExplorer(() => this.view.renderExplorer(this.model.root, this.view.list))
-
-
+        this.view.bindOnCreate(this.model.create);
+        this.model.bindRenderExplorer(() => this.view.renderExplorer(this.model.root, this.view.list));
+        this.view.bindSetActive(this.model.setActive.bind(this.model))
     }
 }
 
