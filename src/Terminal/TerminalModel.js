@@ -11,7 +11,7 @@ class TerminalModel {
             pathName = pathName === "" ? path.name : `${path.name}\\${pathName}`
             path = path.parent
         }
-        let {host} = location
+        let { host } = location
         return `${host}:${pathName}`
     }
     changeLocation = (loc) => {
@@ -45,14 +45,19 @@ class TerminalModel {
         }
         else return false
     }
-    create = (type,name) =>{
-        if(!state.create(name,type,this.path)) return "You have file or folder in the same name"
+    create = (type, name) => {
+        if (!state.create(name, type, this.path)) return "You have file or folder in the same name"
         return `You create ${name}`
     }
-    remove = (name) =>{
-        if(this.path.children[name]){
+    remove = (name) => {
+        if (this.path.children[name]) {
             return state.remove(this.path.children[name])
-        }   return false
+        } return false
+    }
+    rename = (oldName,newName) => {
+        if (this.path.children[oldName]) {
+            return state.rename(this.path.children[oldName],newName)
+        } return false
     }
 }
 

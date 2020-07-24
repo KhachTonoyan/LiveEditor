@@ -12,6 +12,7 @@ class TerminalController {
         this.view.bindRunFile(this.model.runFile)
         this.view.bindCreate(this.model.create)
         this.view.bindRemove(this.model.remove)
+        this.view.bindRename(this.model.rename)
     }
 }
 

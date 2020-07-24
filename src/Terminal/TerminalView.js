@@ -26,9 +26,6 @@ class TerminalView {
             this.terminalContent.innerHTML = ""
         }
     }
-    bindOnGetPath = (cb) => {
-        this.getPath = cb
-    }
 
     putPath = (path, ok) => {
         const main = document.createElement("p")
@@ -64,6 +61,13 @@ class TerminalView {
         commandHalp.call(this)
     }
 
+    // binding
+    bindOnGetPath = (cb) => {
+        this.getPath = cb
+    }
+    bindRename = (cb) => {
+        this.rename = cb
+    }
     bindPathAction = (cb) => {
         this.pathAction = cb
     }

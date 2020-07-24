@@ -73,9 +73,24 @@ function terminalCommandsHandler(value) {
                     this.putPath(this.getPath() + ">")
                 }
                 break;
+            case "rename":
+                {
+                    if(second === undefined || third === undefined){
+                        this.putPath(`You must writh "rename [old name] [new name]"`, false)
+                    }
+                    else if(this.rename(second,third)){
+                        this.putPath(`You rename ${second} to ${third}`, false)
+                    }else{
+                        this.putPath(`We can't rename ${second} to ${third}`, false)
+                    }
+                    this.putPath(this.getPath() + ">")
+                }
+                break;
             default:
-                this.putPath("it's don't correct command, writh halp", false)
-                this.putPath(this.getPath() + ">")
+                {
+                    this.putPath("it's don't correct command, writh halp", false)
+                    this.putPath(this.getPath() + ">")
+                }
         }
     }
 }
@@ -92,6 +107,7 @@ function commandHalp() {
                         <p class="main"><p class="path">Create file "create file [file name]"</p></p>
                         <p class="main"><p class="path">Create folder "create folder [folder name]"</p></p>
                         <p class="main"><p class="path">Delete file or folder "delete [name]"</p></p>
+                        <p class="main"><p class="path">Rename file or folder "rename [old name] [new name]"</p></p>
                      `
     this.terminalContent.append(main)
 }
