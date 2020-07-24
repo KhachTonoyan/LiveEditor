@@ -55,10 +55,14 @@ class State {
         //...
     }
 
-    rename() {
-        //...
+    rename(active,newName) {
+        if(!active.parent.children[active.name]) return false
+        active.parent.children[newName] = active.parent.children[active.name]
+        delete active.parent.children[active.name]
+        active.parent.children[newName].name = newName
 
-        //this.updateUI()
+        this.updateUI()
+        return true
     }
 
 
