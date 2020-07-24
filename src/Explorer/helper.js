@@ -1,7 +1,13 @@
 function createElement(tagName, id, className) {
     const element = document.createElement(tagName);
     if (id) element.id = id;
-    if (className) element.classList.add(className);
+
+    if(className) {
+        let classNames = className.split(' ');
+        for(className of classNames) {
+            element.classList.add(className)
+        }
+    }
 
     return element
 }
@@ -17,4 +23,15 @@ function getActiveParent(el) {
     return el.parent
 }
 
-export {createElement, getElement, isFile, getActiveParent}
+function sortExplorer(items, root) {
+    items.sort().sort((a, b) => {
+        if((root.children[a].type < root.children[b].type)) {
+            return 1
+        }
+        if((root.children[a].type > root.children[b].type)) {
+            return -1
+        }
+    });
+}
+
+export {createElement, getElement, isFile, getActiveParent, sortExplorer}

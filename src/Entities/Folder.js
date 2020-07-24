@@ -4,6 +4,7 @@ export default class Folder {
         this.parent = parent;
         this.children = children || {};
         this.type = "folder";
-        this.id = id || `${Math.ceil(Date.now() * Math.random())}`
+        this.id = id || `${Math.ceil(Date.now() * Math.random())}`;
+        this.expanded = false;
     }
 }
