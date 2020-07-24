@@ -2,16 +2,16 @@ function terminalCommandsHandler(value) {
     const commandsArray = value.split(" ")
     if (commandsArray.length === 1) {
         const [first] = commandsArray
-        if (first === "halp") {
+        if (first === "help") {
             this.halp()
             this.putPath(this.getPath() + ">")
         } else {
-            this.putPath("it's don't correct command, writh halp", false)
+            this.putPath("it's not a correct command, writh help", false)
             this.putPath(this.getPath() + ">")
         }
     }
     else if (commandsArray.length == !2 && commandsArray.length == !3) {
-        this.putPath("it's don't correct command, writh halp", false)
+        this.putPath("it's not a correct command, writh help", false)
         this.putPath(this.getPath() + ">")
     }
     else {
@@ -75,12 +75,12 @@ function terminalCommandsHandler(value) {
                 break;
             case "rename":
                 {
-                    if(second === undefined || third === undefined){
+                    if (second === undefined || third === undefined) {
                         this.putPath(`You must writh "rename [old name] [new name]"`, false)
                     }
-                    else if(this.rename(second,third)){
+                    else if (this.rename(second, third)) {
                         this.putPath(`You rename ${second} to ${third}`, false)
-                    }else{
+                    } else {
                         this.putPath(`We can't rename ${second} to ${third}`, false)
                     }
                     this.putPath(this.getPath() + ">")
@@ -88,7 +88,7 @@ function terminalCommandsHandler(value) {
                 break;
             default:
                 {
-                    this.putPath("it's don't correct command, writh halp", false)
+                    this.putPath("it's not a correct command, writh help", false)
                     this.putPath(this.getPath() + ">")
                 }
         }
@@ -103,7 +103,7 @@ function commandHalp() {
     main.innerHTML = `
                         <p class="main"><p class="path">Change folder "cd [folder name]"</p></p>
                         <p class="main"><p class="path">Open file "open [file name]"</p></p>
-                        <p class="main"><p class="path">Run file "open [file name]"</p></p>
+                        <p class="main"><p class="path">Run file "run [file name]"</p></p>
                         <p class="main"><p class="path">Create file "create file [file name]"</p></p>
                         <p class="main"><p class="path">Create folder "create folder [folder name]"</p></p>
                         <p class="main"><p class="path">Delete file or folder "delete [name]"</p></p>

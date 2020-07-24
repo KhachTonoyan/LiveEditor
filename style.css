@@ -1,7 +1,7 @@
 #app{
     width: 100%;
     height: 100%;
-    background-color: aquamarine;
+    background-color: #252525;
     display: flex;
 }
 
@@ -27,10 +27,25 @@
 /* .root {
 
 } */
-
+/*Begin:: Explorer*/
 .root ul {
     padding-left: 20px;
     list-style-type: none;
+}
+
+.explorer-icons {
+    display: flex;
+    align-self: center;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+
+.explorer-icon {
+    user-select: none;
+    cursor: pointer;
+    color: white;
+    padding: 4px;
+    margin: 0 3px;
 }
 
 .selected {
@@ -63,6 +78,76 @@
 }
 
 /*search end*/
+li[data-name] {
+    white-space: nowrap;
+    user-select: none;
+    cursor: pointer;
+    color: white;
+}
+
+li.folder[data-name]:before {
+    font-family: "Font Awesome 5 Free";
+    color: #FFBA1F;
+    content: "\f07b";
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 900;
+    padding-left: 1px;
+    padding-right: 4px;
+}
+
+li.folder.expand[data-name]:before {
+    font-family: "Font Awesome 5 Free";
+    color: #FFBA1F;
+    content: "\f07c";
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 900;
+    padding-right: 2px;
+}
+
+li.file:before {
+    font-family: "Font Awesome 5 Free";
+    color: #3778EA;
+    content: "\f15c";
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 2px;
+    padding-right: 6px;
+}
+
+li.file.js:before {
+    font-family: "Font Awesome 5 Brands";
+    color: #FEE650;
+    content: '\f3b9';
+    padding-left: 1px;
+    padding-right: 5px;
+}
+
+li.file.css:before {
+    font-family: "Font Awesome 5 Brands";
+    color: #264de4;
+    content: '\f38b';
+    padding-left: 2px;
+    padding-right: 6px;
+}
+
+li.file.html:before {
+    font-family: "Font Awesome 5 Brands";
+    color: #E44D26;
+    content: '\f13b';
+    padding-left: 2px;
+    padding-right: 6px;
+}
+
+.folder.expand > ul {
+    display: block;
+}
+
+.folder > ul {
+    display: none;
+}
+/*End:: Explorer*/
 
 #terminal{
     display: none;

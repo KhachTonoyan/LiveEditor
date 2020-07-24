@@ -11,8 +11,10 @@ class ExplorerModel {
         removeButton.onclick = () => {
             this.remove(this.active)
         }
+    }
 
-        console.log(this.renderExplorer)
+    toggleExpanded = (path) => {
+        this.active.expanded = !this.active.expanded
     }
 
     create = (name, type) => {
@@ -21,14 +23,16 @@ class ExplorerModel {
     };
 
     remove = (active) => {
-        this.active = active.parent;
+        if(active.parent) {
+            this.active = active.parent;
+        }
         state.remove(active);
-        console.log(this.active, 'active after remove')
     };
 
     setActive(path) {
         let active = this.root;
-        for(const key of path) {
+        let paths = path.slice(1);
+        for(const key of paths) {
             active = active.children[key]
         }
         this.active = active;
