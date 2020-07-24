@@ -54,9 +54,9 @@ class TerminalModel {
             return state.remove(this.path.children[name])
         } return false
     }
-    rename = (oldName,newName) => {
+    rename = (oldName, newName) => {
         if (this.path.children[oldName]) {
-            return state.rename(this.path.children[oldName],newName)
+            return state.rename(this.path.children[oldName], newName)
         } return false
     }
 }
