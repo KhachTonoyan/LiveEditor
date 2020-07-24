@@ -1,17 +1,8 @@
-import File from "../Entities/File.js"
-import Folder from "../Entities/Folder.js"
-
-const root = new Folder("root", null, null, "root")
-const ch = new Folder("src", root)
-root.children = { "index.js": new File("index.js", root, "alert('hello world')"), "src": ch }
-ch.children = { "data": new Folder("data", {}) }
-root.children.src.children.data.parent = root.children.src
+import state from "../State/State.js"
 
 class TerminalModel {
     constructor() {
-        this.path = root
-
-        console.log(root)
+        this.path = state.root
     }
     getPath = () => {
         let path = this.path
@@ -20,7 +11,8 @@ class TerminalModel {
             pathName = pathName === "" ? path.name : `${path.name}\\${pathName}`
             path = path.parent
         }
-        return "localhost:" + pathName
+        let { host } = location
+        return `${host}:${pathName}`
     }
     changeLocation = (loc) => {
         if (loc === "goBack") {
@@ -52,6 +44,20 @@ class TerminalModel {
             return eval(this.path.children[title].content)
         }
         else return false
+    }
+    create = (type, name) => {
+        if (!state.create(name, type, this.path)) return "You have file or folder in the same name"
+        return `You create ${name}`
+    }
+    remove = (name) => {
+        if (this.path.children[name]) {
+            return state.remove(this.path.children[name])
+        } return false
+    }
+    rename = (oldName,newName) => {
+        if (this.path.children[oldName]) {
+            return state.rename(this.path.children[oldName],newName)
+        } return false
     }
 }
 

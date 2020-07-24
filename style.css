@@ -89,7 +89,7 @@
   }
 .logP{
     display: inline-block;
-    width: 75%;
+    width: 45%;
   }
   #closeTerminal{
     right: 0;
@@ -101,4 +101,10 @@
   }
   .termNav{
     position: relative;
+  }
+
+  @media (max-width: 900px){
+    .logP{
+      width: 30%;
+    }
   }
