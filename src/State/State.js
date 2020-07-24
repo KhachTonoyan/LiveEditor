@@ -1,6 +1,6 @@
 import File from '../Entities/File.js'
 import Folder from '../Entities/Folder.js'
-import {getActiveParent} from "../Explorer/helper.js";
+import { getActiveParent } from "../Explorer/helper.js";
 
 // some mock data
 const root = new Folder("root", null, null, "root");
@@ -18,8 +18,8 @@ class State {
 
     create = (name, type, active) => {
         let activeFolder = getActiveParent(active); // folder is returned
-        if(activeFolder.children[name]) return false
-        if(type === 'file') {
+        if (activeFolder.children[name]) return false
+        if (type === 'file') {
             activeFolder.children[name] = new File(name, activeFolder)
         } else {
             activeFolder.children[name] = new Folder(name, activeFolder)
@@ -30,7 +30,7 @@ class State {
     };
 
     remove = active => {
-        if(!active.parent.children[active.name]) return false
+        if (!active.parent.children[active.name]) return false
         delete active.parent.children[active.name];
 
         this.updateUI()
@@ -55,8 +55,8 @@ class State {
         //...
     }
 
-    rename(active,newName) {
-        if(!active.parent.children[active.name]) return false
+    rename(active, newName) {
+        if (!active.parent.children[active.name]) return false
         active.parent.children[newName] = active.parent.children[active.name]
         delete active.parent.children[active.name]
         active.parent.children[newName].name = newName

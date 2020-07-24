@@ -75,12 +75,12 @@ function terminalCommandsHandler(value) {
                 break;
             case "rename":
                 {
-                    if(second === undefined || third === undefined){
+                    if (second === undefined || third === undefined) {
                         this.putPath(`You must writh "rename [old name] [new name]"`, false)
                     }
-                    else if(this.rename(second,third)){
+                    else if (this.rename(second, third)) {
                         this.putPath(`You rename ${second} to ${third}`, false)
-                    }else{
+                    } else {
                         this.putPath(`We can't rename ${second} to ${third}`, false)
                     }
                     this.putPath(this.getPath() + ">")
