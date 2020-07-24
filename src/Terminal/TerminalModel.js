@@ -11,7 +11,7 @@ class TerminalModel {
             pathName = pathName === "" ? path.name : `${path.name}\\${pathName}`
             path = path.parent
         }
-        return "localhost:" + pathName
+        return location.href + pathName
     }
     changeLocation = (loc) => {
         if (loc === "goBack") {

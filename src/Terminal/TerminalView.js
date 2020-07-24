@@ -5,6 +5,7 @@ const terminal = document.getElementById("terminal")
 const closeTerminal = terminal.querySelector("#closeTerminal")
 const terminalContent = terminal.querySelector("#terminalContent")
 
+
 class TerminalView {
     constructor() {
         this.openTerminalButton = openTerminal
