@@ -55,7 +55,7 @@ function terminalCommandsHandler(value) {
             case "create":
                 {
                     if ((second === "file" || second === "folder") && third === undefined) {
-                        this.putPath("Please writh file or folder name", false)
+                        this.putPath(`Please writh ${second} name`, false)
                     }
                     else if (second === "file" || second === "folder") {
                         this.putPath(this.create(second, third), false)
