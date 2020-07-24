@@ -155,7 +155,7 @@ li.file.html:before {
   }
 .logP{
     display: inline-block;
-    width: 75%;
+    width: 45%;
   }
   #closeTerminal{
     right: 0;
@@ -167,4 +167,10 @@ li.file.html:before {
   }
   .termNav{
     position: relative;
+  }
+
+  @media (max-width: 900px){
+    .logP{
+      width: 30%;
+    }
   }
