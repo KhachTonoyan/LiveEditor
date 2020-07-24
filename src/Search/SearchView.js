@@ -1,28 +1,48 @@
 class SearchView {
-    constructor(){
-        this.searchPanel = document.createElement("div");
-    }
+  constructor() {
+    this.searchPanel = document.createElement("div");
+    this.searchPanel.className = "searchPanel";
 
-    openSearchWindow() {
-        this.searchPanel.className = "searchPanel";
+    const topPanel = document.createElement("div");
+    topPanel.id = "topPanel";
 
-        const input = document.createElement("input");
-        input.id = "searchInput"
-        this.searchPanel.appendChild(input);
+    this.input = document.createElement("input");
+    this.input.id = "searchInput";
+    topPanel.appendChild(this.input);
 
-        const goButton = document.createElement("button");
-        goButton.id = "go";
-        goButton.textContent = "GO!"
-        this.searchPanel.appendChild(goButton)
-        
-        document.getElementById('app').appendChild(this.searchPanel)
-    }
+    const goButton = document.createElement("button");
+    goButton.id = "go";
+    goButton.textContent = "GO!";
+    topPanel.appendChild(goButton);
 
-    printResults(path){
-        const res = document.createElement("p");
-        res.textContent = path;
-        this.searchPanel.insertAdjacentElement('beforeend', res);
-    }
+    const closeButton = document.createElement("button");
+    closeButton.id = "closeButton";
+    closeButton.textContent = "X";
+    closeButton.onclick = () => {
+      document.getElementById("app").removeChild(this.searchPanel);
+    };
+    topPanel.appendChild(closeButton);
+
+    this.searchPanel.appendChild(topPanel)
+
+    this.resultsPanel = document.createElement("div");
+    this.searchPanel.appendChild(this.resultsPanel);
+  }
+
+  openSearchWindow() {
+    document.getElementById("app").appendChild(this.searchPanel);
+  }
+
+  printResults(path) {
+    const res = document.createElement("p");
+    res.textContent = path;
+    this.resultsPanel.insertAdjacentElement("beforeend", res);
+  }
+
+  clearResultList() {
+    this.resultsPanel.innerHTML = "";
+    this.input.value = "";
+  }
 }
 
 export default SearchView;

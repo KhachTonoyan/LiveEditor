@@ -38,10 +38,11 @@
 }
 
 
-/*search*/
+/*search start*/
 
-.searchPanel{
-  background-color: #1e1e1e;
+.searchPanel {
+  /* background-color: #1e1e1e; */
+  background-color: rgba(30, 30, 30, 96%);
   color: #0e6b0e;
   width: 700px;
   overflow: auto;
@@ -51,8 +52,17 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  font-weight: bolder;
 }
 
+#closeButton {
+  height: 25px;
+  width: 25px;
+  float: right;
+  font-size: large;
+}
+
+/*search end*/
 
 #terminal{
     display: none;

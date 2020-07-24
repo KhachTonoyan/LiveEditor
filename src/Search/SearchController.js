@@ -11,12 +11,15 @@ class Controller {
     }
     
     initView(){
-        document.getElementById("search").addEventListener('click', () => this.view.openSearchWindow());
+        document.getElementById("search").addEventListener('click', () => { 
+            this.view.openSearchWindow()
+        });
 
         document.getElementById("app").addEventListener('click', (event) => {
             if(event.target.id === "go"){
                 const pattern = document.getElementById("searchInput").value;
-                this.model.search(State.root, pattern);
+                this.view.clearResultList();
+                if(pattern) this.model.search(State.root, pattern);
             }
         })
     }

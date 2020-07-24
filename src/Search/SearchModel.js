@@ -6,13 +6,13 @@ import Folder from "../Entities/Folder.js";
 const root = new Folder("root", null, null, "root");
 const ch = new Folder("src", root);
 root.children = {
-  "index.js": new File("index.js", root, "alert('hello world')"),
+  "index.js": new File("index.js", root, `${"abcneedle".repeat(100)}`),
   src: ch,
   fold: new Folder(
     "fold",
     root,
     {
-      "i.js": new File("i.js", { name: "fold" }, "asd"),
+      "i.js": new File("i.js", { name: "fold" }, `${"asdnee".repeat(100)}`),
     },
     "id"
   ),
@@ -25,16 +25,16 @@ console.log(root);
 //memoization container
 let map = new Map();
 
-
 class Search {
-//   search(root, pattern) {
-//       let values = Object.values(root.children);
-//       search1(values, pattern);
-//   }
+  //   search(root, pattern) {
+  //       let values = Object.values(root.children);
+  //       searchUtil(values, pattern);
+  //   }
 
+  //works with mock data
   search(_, pattern) {
     let values = Object.values(root.children);
-    search1(values, pattern);
+    searchUtil(values, pattern);
   }
 }
 
@@ -43,7 +43,7 @@ let path = "";
 
 //recursive function that traverses the file system tree
 //returns when neither file nor folder is met
-function search1(values, pattern) {
+function searchUtil(values, pattern) {
   //iteratively traverse all the children of the current folder
   values.forEach((v) => {
     if (v && v.type === "file") {
@@ -56,17 +56,18 @@ function search1(values, pattern) {
         results.forEach((i) =>
           controller.updateResults(`${path} at index ${i}`)
         );
+
         path = "";
-      }
+      } else controller.updateResults(`No result found in ${path} :(`);
     } else if (v && v.type === "folder") {
       //recursive step
-      search1(Object.values(v.children), pattern); //recurrence relation: O(n)
+      searchUtil(Object.values(v.children), pattern); //recurrence relation: O(n)
     }
   });
 }
 
 /*
-Knuth-Morris-Prath algorithm
+Knuth-Morris-Pratt algorithm
 
 An elaborated version of naive pattern matching technique.
 
@@ -108,7 +109,7 @@ function KMP(content, pattern) {
       j = prefixSuffix[j - 1];
     } else if (i < n && pattern.charAt(j) !== content.charAt(i)) {
       /*
-          Key point of KMP. If mismatch occurs, instead of adjasting pointer to the beggining it will be set to
+          Key point of KMP. If mismatch occurs, instead of adjusting pointer to the beggining it will be set to
           prefix end.
         */
       if (j !== 0) j = prefixSuffix[j - 1];
@@ -131,10 +132,13 @@ function preprocess(pattern, m, prefixSuffix) {
   let i = 1;
 
   prefixSuffix[0] = 0;
+
   while (i < m) {
     if (pattern.charAt(i) === pattern.charAt(j)) {
       j++;
+
       prefixSuffix[i] = j;
+
       i++;
     } else {
       if (j != 0) j = prefixSuffix[j - 1];
