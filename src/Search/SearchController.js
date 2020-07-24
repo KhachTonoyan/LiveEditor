@@ -11,7 +11,7 @@ class Controller {
     }
     
     initView(){
-        document.getElementById("search").addEventListener('click', () => { 
+        document.getElementById("searchBtn").addEventListener('click', () => { 
             this.view.openSearchWindow()
         });
 

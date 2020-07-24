@@ -56,7 +56,6 @@
 /*search start*/
 
 .searchPanel {
-  /* background-color: #1e1e1e; */
   background-color: rgba(30, 30, 30, 96%);
   color: #0e6b0e;
   width: 700px;
@@ -75,6 +74,10 @@
   width: 25px;
   float: right;
   font-size: large;
+}
+
+#searchBtn{
+  height: 50px;
 }
 
 /*search end*/
