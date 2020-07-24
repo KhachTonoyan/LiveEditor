@@ -3,8 +3,6 @@ import state from "../State/State.js"
 class TerminalModel {
     constructor() {
         this.path = state.root
-
-        console.log(this.path)
     }
     getPath = () => {
         let path = this.path

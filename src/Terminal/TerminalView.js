@@ -1,3 +1,5 @@
+import { terminalCommandsHandler, changeVal, commandHalp } from "./helper.js"
+
 const openTerminal = document.getElementById("terminalBtn")
 const terminal = document.getElementById("terminal")
 const closeTerminal = terminal.querySelector("#closeTerminal")
@@ -44,7 +46,7 @@ class TerminalView {
 
     hendleInput = (event) => {
         if (event.key === "Enter") {
-            const inpVal = this.activInput.value.replace(/\s+/g, ' ').trim().toLowerCase()
+            const inpVal = changeVal(this.activInput.value)
             this.activInput.classList.remove("activLog")
             this.activInput.disabled = "disabled"
             this.activInput.onkeyup = null
@@ -55,77 +57,12 @@ class TerminalView {
     }
 
     do = (value) => {
-        const commandsArray = value.split(" ")
-        if (commandsArray.length == !2 && commandsArray.length == !3) {
-            this.putPath("it's don't correct command", false)
-            this.putPath(this.getPath() + ">")
-        }
-        else {
-            const [first, second, third] = commandsArray
-            switch (first) {
-                case "cd":
-                    {
-                        let res;
-                        if (second === "..") res = this.pathAction("goBack")
-                        else res = this.pathAction(second)
-                        if (res) this.putPath(this.getPath() + ">")
-                        else {
-                            this.putPath(`Don't found folder ${second}`, false)
-                            this.putPath(this.getPath() + ">",)
-                        }
-                    }
-                    break;
-                case "open":
-                    {
-                        let res = this.openFile(second)
-                        if (!res) this.putPath(this.getPath() + ">")
-                        else {
-                            this.putPath(res, false)
-                            this.putPath(this.getPath() + ">")
-                        }
-                    }
-                    break;
-                case "run":
-                    {
-                        let res = this.runFile(second)
-                        if (res === false) {
-                            this.putPath(`Don't found file ${second}`, res)
-                        }
-                        else {
-                            this.putPath(res, false)
-                        }
-                        this.putPath(this.getPath() + ">")
-
-                    }
-                    break;
-                case "create":
-                    {
-                        if ((second === "file" || second === "folder") && third === undefined) {
-                            this.putPath("Please writh file or folder name", false)
-                        }
-                        else if (second === "file" || second === "folder") {
-                            this.putPath(this.create(second, third), false)
-                        }
-                        else {
-                            this.putPath("You can create only file or folder", false)
-                        }
-                        this.putPath(this.getPath() + ">")
-                    }
-                    break;
-                case "delete":
-                    {
-                        if (this.remove(second)) this.putPath(`${second} deleted`, false)
-                        else this.putPath(`${second} don't found in this folder`, false)
-                        this.putPath(this.getPath() + ">")
-                    }
-                    break;
-                default:
-                    console.log(commandsArray)
-                    this.putPath("it's don't correct command", false)
-                    this.putPath(this.getPath() + ">")
-            }
-        }
+        terminalCommandsHandler.call(this, value)
     }
+    halp = () => {
+        commandHalp.call(this)
+    }
+
     bindPathAction = (cb) => {
         this.pathAction = cb
     }
