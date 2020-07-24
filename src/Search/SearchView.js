@@ -1,18 +1,26 @@
 class SearchView {
+    constructor(){
+        this.searchPanel = document.createElement("div");
+    }
     openSearchWindow() {
-        const searchPanel = document.createElement("div");
-        searchPanel.className = "searchPanel";
+        this.searchPanel.className = "searchPanel";
 
         const input = document.createElement("input");
         input.id = "searchInput"
-        searchPanel.appendChild(input);
+        this.searchPanel.appendChild(input);
 
         const goButton = document.createElement("button");
         goButton.id = "go";
         goButton.textContent = "GO!"
-        searchPanel.appendChild(goButton)
+        this.searchPanel.appendChild(goButton)
         
-        document.getElementById('app').appendChild(searchPanel)
+        document.getElementById('app').appendChild(this.searchPanel)
+    }
+
+    printResults(path){
+        const res = document.createElement("p");
+        res.textContent = path;
+        this.searchPanel.insertAdjacentElement('beforeend', res);
     }
 }
 

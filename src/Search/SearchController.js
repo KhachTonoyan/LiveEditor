@@ -20,6 +20,10 @@ class Controller {
             }
         })
     }
+
+    updateResults(path){
+        if(path) this.view.printResults(path);
+    }
 }
 
 export default new Controller(new SearchView, new SearchModel);
