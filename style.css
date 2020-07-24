@@ -23,6 +23,14 @@
     height: 30px;
     border: 1px solid black;
 }
+#content{
+  resize: none;
+  width: 100%;
+  height: 100%;
+}
+#editor{
+  height: 770px;
+}
 
 /* .root {
 
@@ -152,6 +160,10 @@ li.file.html:before {
 }
 /*End:: Explorer*/
 
+/* Terminal */
+button{
+  cursor: pointer;
+}
 #terminal{
     display: none;
     position: absolute;
@@ -164,8 +176,12 @@ li.file.html:before {
   }
 #terminalBtn{
   position: absolute;
-  bottom: 0;
-  right: 0;
+  padding: 5px;
+  background-color:black;
+  color: #fff;
+  border-radius: 20%;
+  bottom: 5px;
+  right: 5px;
 }
 .log{
     width:100%;
@@ -190,9 +206,13 @@ li.file.html:before {
     width: 45%;
   }
   #closeTerminal{
-    right: 0;
     position: absolute;
-    width: 20px;
+    width: 17px;
+    height: 17px;
+    border-radius: 20%;
+    right: 3px;
+    top: 3px;
+    border: 0;
   }
   .main{
     margin: 5px;
@@ -203,7 +223,7 @@ li.file.html:before {
 
   @media (max-width: 900px){
     .logP{
-      width: 30%;
+      width: 40%;
     }
   }
   
