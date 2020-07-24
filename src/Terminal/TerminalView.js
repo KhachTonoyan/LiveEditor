@@ -1,4 +1,4 @@
-import { terminalCommandsHandler, changeVal, commandHalp } from "./helper.js"
+import { terminalCommandsHandler, changeVal, commandHelp } from "./helper.js"
 
 const openTerminal = document.getElementById("terminalBtn")
 const terminal = document.getElementById("terminal")
@@ -58,7 +58,7 @@ class TerminalView {
         terminalCommandsHandler.call(this, value)
     }
     halp = () => {
-        commandHalp.call(this)
+        commandHelp.call(this)
     }
 
     // binding

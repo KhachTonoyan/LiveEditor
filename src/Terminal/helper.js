@@ -90,7 +90,7 @@ function terminalCommandsHandler(value) {
 
 const changeVal = (val) => val.replace(/\s+/g, ' ').trim();
 
-function commandHalp() {
+function commandHelp() {
   const main = document.createElement('p');
   main.classList.add('main');
   main.innerHTML = `
@@ -105,4 +105,4 @@ function commandHalp() {
   this.terminalContent.append(main);
 }
 
-export { terminalCommandsHandler, changeVal, commandHalp };
+export { terminalCommandsHandler, changeVal, commandHelp };
