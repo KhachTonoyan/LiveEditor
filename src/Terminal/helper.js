@@ -95,7 +95,7 @@ function terminalCommandsHandler(value) {
     }
 }
 
-const changeVal = val => val.replace(/\s+/g, ' ').trim().toLowerCase()
+const changeVal = val => val.replace(/\s+/g, ' ').trim()
 
 function commandHalp() {
     const main = document.createElement("p")
