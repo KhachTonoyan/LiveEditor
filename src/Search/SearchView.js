@@ -2,6 +2,7 @@ class SearchView {
     constructor(){
         this.searchPanel = document.createElement("div");
     }
+
     openSearchWindow() {
         this.searchPanel.className = "searchPanel";
 

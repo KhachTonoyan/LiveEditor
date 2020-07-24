@@ -1,33 +1,41 @@
-import controller from './SearchController.js'
-import File from '../Entities/File.js'
-import Folder from '../Entities/Folder.js'
+import controller from "./SearchController.js";
+import File from "../Entities/File.js";
+import Folder from "../Entities/Folder.js";
 
+//mock data
 const root = new Folder("root", null, null, "root");
 const ch = new Folder("src", root);
 root.children = {
-    "index.js": new File("index.js", root, "alert('hello world')"), "src": ch,
-    "fold": new Folder("fold", root, {
-        "i.js": new File("i.js", { name: "fold" }, "asd")
-    }, "id")
+  "index.js": new File("index.js", root, "alert('hello world')"),
+  src: ch,
+  fold: new Folder(
+    "fold",
+    root,
+    {
+      "i.js": new File("i.js", { name: "fold" }, "asd"),
+    },
+    "id"
+  ),
 };
-ch.children = { "data": new Folder("data", {}) };
+ch.children = { data: new Folder("data", {}) };
 root.children.src.children.data.parent = root.children.src;
 
-console.log(root)
+console.log(root);
 
 //memoization container
 let map = new Map();
 
-class Search {
-    // search(root, pattern) {
-    //     let values = Object.values(root.children);
-    //     search1(values, pattern);
-    // }
 
-    search(root1, pattern) {
-        let values = Object.values(root.children);
-        search1(values, pattern);
-    }
+class Search {
+//   search(root, pattern) {
+//       let values = Object.values(root.children);
+//       search1(values, pattern);
+//   }
+
+  search(_, pattern) {
+    let values = Object.values(root.children);
+    search1(values, pattern);
+  }
 }
 
 //global variable path to trace the road
@@ -36,23 +44,25 @@ let path = "";
 //recursive function that traverses the file system tree
 //returns when neither file nor folder is met
 function search1(values, pattern) {
-    //iteratively traverse all the children of the current folder
-    values.forEach(v => {
-        if (v && v.type === 'file') {
-            let results = KMP(v.content, pattern);
+  //iteratively traverse all the children of the current folder
+  values.forEach((v) => {
+    if (v && v.type === "file") {
+      let results = KMP(v.content, pattern);
 
-            path += "/" + v.parent.name;
+      path += "/" + v.parent.name;
 
-            if (results.length !== 0) {
-                path += "/" + v.name;
-                results.forEach(i => controller.updateResults(`${path} at index ${i}`)); //change this
-                path = ""
-            }
-        } else if (v && v.type === 'folder') {
-            //recursive step
-            search1(Object.values(v.children), pattern); //recurrence relation: O(n)
-        }
-    })
+      if (results.length !== 0) {
+        path += "/" + v.name;
+        results.forEach((i) =>
+          controller.updateResults(`${path} at index ${i}`)
+        );
+        path = "";
+      }
+    } else if (v && v.type === "folder") {
+      //recursive step
+      search1(Object.values(v.children), pattern); //recurrence relation: O(n)
+    }
+  });
 }
 
 /*
@@ -70,45 +80,42 @@ Space-Complexity: O(m) due to the prefix-suffix array
 
 //O(n)
 function KMP(content, pattern) {
+  //this array will hold the resulting indexes
+  let results = [];
 
-    //this array will hold the resulting indexes 
-    let results = [];
-    
-    const n = content.length;
-    const m = pattern.length;
+  const n = content.length;
+  const m = pattern.length;
 
-    //supplement array to preprocess the pattern string
-    let prefixSuffix = [];
+  //supplement array to preprocess the pattern string
+  let prefixSuffix = [];
 
-    // memoization:
-    // if the pattern has been processed already we win O(m) time
-    if (map.get(pattern)) prefixSuffix = map.get(pattern);
-    else preprocess(pattern, m, prefixSuffix);
+  // memoization:
+  // if the pattern has been processed already we win O(m) time
+  if (map.get(pattern)) prefixSuffix = map.get(pattern);
+  else preprocess(pattern, m, prefixSuffix);
 
-    let j = 0;
-    let i = 0;
+  let j = 0;
+  let i = 0;
 
-    while (i < n) {
-        if (content.charAt(i) === pattern.charAt(j)) {
-            i++;
-            j++;
-        }
+  while (i < n) {
+    if (content.charAt(i) === pattern.charAt(j)) {
+      i++;
+      j++;
+    }
 
-        if (j === m) {
-            results.push(i - j);
-            j = prefixSuffix[j - 1];
-        }
-
-        /*
+    if (j === m) {
+      results.push(i - j);
+      j = prefixSuffix[j - 1];
+    } else if (i < n && pattern.charAt(j) !== content.charAt(i)) {
+      /*
           Key point of KMP. If mismatch occurs, instead of adjasting pointer to the beggining it will be set to
           prefix end.
         */
-        else if (i < n && pattern.charAt(j) !== content.charAt(i)) {
-            if (j !== 0) j = prefixSuffix[j - 1];
-            else i = i + 1;
-        }
+      if (j !== 0) j = prefixSuffix[j - 1];
+      else i = i + 1;
     }
-    return results;
+  }
+  return results;
 }
 
 /*
@@ -119,29 +126,27 @@ function KMP(content, pattern) {
 
 //O(m)
 function preprocess(pattern, m, prefixSuffix) {
-    let j = 0;
+  let j = 0;
 
-    let i = 1;
+  let i = 1;
 
-    prefixSuffix[0] = 0;
-    console.log("preprocessing")
-    while (i < m) {
-        if (pattern.charAt(i) === pattern.charAt(j)) {
-            j++;
-            prefixSuffix[i] = j;
-            i++;
-        } else {
-            if (j != 0) j = prefixSuffix[j - 1];
-            else {
-                prefixSuffix[i] = 0;
-                i++;
-            }
-        }
+  prefixSuffix[0] = 0;
+  while (i < m) {
+    if (pattern.charAt(i) === pattern.charAt(j)) {
+      j++;
+      prefixSuffix[i] = j;
+      i++;
+    } else {
+      if (j != 0) j = prefixSuffix[j - 1];
+      else {
+        prefixSuffix[i] = 0;
+        i++;
+      }
     }
+  }
 
-    //memoize
-    map.set(pattern, prefixSuffix);
+  //memoize
+  map.set(pattern, prefixSuffix);
 }
-
 
 export default Search;
