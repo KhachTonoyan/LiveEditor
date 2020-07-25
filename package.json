@@ -1,11 +1,16 @@
 {
-  "name": "LiveEditor",
+  "name": "liveeditor",
   "version": "1.0.0",
   "description": "",
   "main": "script.js",
   "scripts": {
+<<<<<<< HEAD
     "lint": "eslint ./**",
     "lint:fix": "eslint ./** --fix"
+=======
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix"
+>>>>>>> ceee1ae265ab5e64cd76158991525f2e441df720
   },
   "repository": {
     "type": "git",
@@ -19,9 +24,20 @@
   },
   "homepage": "https://github.com/KhachTonoyan/LiveEditor#readme",
   "devDependencies": {
+<<<<<<< HEAD
     "eslint": "^7.5.0"
   },
   "dependencies": {
     "airbnb": "0.0.2"
+=======
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-html": "^6.0.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5"
+>>>>>>> ceee1ae265ab5e64cd76158991525f2e441df720
   }
 }
