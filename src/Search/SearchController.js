@@ -29,4 +29,5 @@ class Controller {
     }
 }
 
+
 export default new Controller(new SearchView, new SearchModel);

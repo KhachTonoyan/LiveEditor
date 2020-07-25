@@ -4,7 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint ./**",
+    "lint:fix": "eslint ./** --fix"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,8 @@
   "homepage": "https://github.com/KhachTonoyan/LiveEditor#readme",
   "devDependencies": {
     "eslint": "^7.5.0"
+  },
+  "dependencies": {
+    "airbnb": "0.0.2"
   }
 }
