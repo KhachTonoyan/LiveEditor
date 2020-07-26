@@ -27,9 +27,8 @@ module.exports = {
         "import/no-cycle":"off",
         "no-restricted-syntax":"off",
         "no-shadow":"off",
-        "array-callback-return":"off"
-
-
+        "array-callback-return":"off",
+        "no-mixed-operators":"off"
     },
     parser: "babel-eslint",
     
