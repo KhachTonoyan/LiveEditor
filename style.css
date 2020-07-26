@@ -6,7 +6,7 @@
 }
 
 #explorer{
-    width: 200px;
+    width: 400px;
     height: 800px;
     border: 1px solid black;
 }
@@ -36,28 +36,57 @@
 
 } */
 /*Begin:: Explorer*/
+.explorer {
+  position: relative;
+}
+
+.explorer .overlay {
+  position: absolute;  
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 5;
+  display: none;
+}
+
 .root ul {
-    padding-left: 20px;
-    list-style-type: none;
+  padding-left: 20px;
+  list-style-type: none;
 }
 
 .explorer-icons {
-    display: flex;
-    align-self: center;
-    justify-content: flex-end;
-    margin-top: 4px;
+  display: flex;
+  align-self: center;
+  justify-content: flex-end;
+  margin-top: 4px;
 }
 
 .explorer-icon {
-    user-select: none;
-    cursor: pointer;
-    color: white;
-    padding: 4px;
-    margin: 0 3px;
+  user-select: none;
+  cursor: pointer;
+  color: white;
+  padding: 4px;
+  margin: 0 3px;
 }
 
 .selected {
-    background-color: rgba(148, 175, 255, 0.87)
+  position: relative;
+  width: calc(100% - 20px);
+  display: inline-block;
+  z-index: 1;
+}
+
+.selected:before {
+  content: '';
+  position: absolute;
+  width: calc(100% + 20px);
+  height: 20px;
+  background-color: #163e72;
+  margin-left: -22px;
+  z-index: -1;
+  border-radius: 2px;
 }
 
 
@@ -90,73 +119,107 @@
 
 /*search end*/
 li[data-name] {
-    white-space: nowrap;
-    user-select: none;
-    cursor: pointer;
-    color: white;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  color: white;
 }
 
-li.folder[data-name]:before {
-    font-family: "Font Awesome 5 Free";
-    color: #FFBA1F;
-    content: "\f07b";
-    display: inline-block;
-    vertical-align: middle;
-    font-weight: 900;
-    padding-left: 1px;
-    padding-right: 4px;
+li.folder:before {
+  font-family: "Font Awesome 5 Free";
+  color: #FFBA1F;
+  content: "\f07b";
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 900;
+  padding-left: 1px;
+  padding-right: 4px;
+  z-index: 2;
+  position: relative;
 }
 
-li.folder.expand[data-name]:before {
-    font-family: "Font Awesome 5 Free";
-    color: #FFBA1F;
-    content: "\f07c";
-    display: inline-block;
-    vertical-align: middle;
-    font-weight: 900;
-    padding-right: 2px;
+li.folder.expand:before {
+  font-family: "Font Awesome 5 Free";
+  color: #FFBA1F;
+  content: "\f07c";
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 900;
+  padding-right: 2px;
 }
 
 li.file:before {
-    font-family: "Font Awesome 5 Free";
-    color: #3778EA;
-    content: "\f15c";
-    display: inline-block;
-    vertical-align: middle;
-    padding-left: 2px;
-    padding-right: 6px;
+  font-family: "Font Awesome 5 Free";
+  color: #3778EA;
+  content: "\f15c";
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 2px;
+  padding-right: 6px;
+  z-index: 2;
+  position: relative;
 }
 
 li.file.js:before {
-    font-family: "Font Awesome 5 Brands";
-    color: #FEE650;
-    content: '\f3b9';
-    padding-left: 1px;
-    padding-right: 5px;
+  font-family: "Font Awesome 5 Brands";
+  color: #FEE650;
+  content: '\f3b9';
+  padding-left: 1px;
+  padding-right: 5px;
 }
 
 li.file.css:before {
-    font-family: "Font Awesome 5 Brands";
-    color: #264de4;
-    content: '\f38b';
-    padding-left: 2px;
-    padding-right: 6px;
+  font-family: "Font Awesome 5 Brands";
+  color: #264de4;
+  content: '\f38b';
+  padding-left: 2px;
+  padding-right: 6px;
 }
 
 li.file.html:before {
-    font-family: "Font Awesome 5 Brands";
-    color: #E44D26;
-    content: '\f13b';
-    padding-left: 2px;
-    padding-right: 6px;
+  font-family: "Font Awesome 5 Brands";
+  color: #E44D26;
+  content: '\f13b';
+  padding-left: 2px;
+  padding-right: 6px;
 }
 
 .folder.expand > ul {
-    display: block;
+  display: block;
 }
 
 .folder > ul {
-    display: none;
+  display: none;
+}
+
+.create-input-field {
+  width: calc(100% - 20px);
+  position: relative;
+  z-index: 15;
+  outline: none;
+}
+
+.create-input-field.danger {
+  border-color: red;
+}
+
+.input {
+  position: relative;
+}
+
+.input .warning {
+  position: absolute;
+  top: 19px;
+  left: 20px;
+  font-size: 14px;
+  line-height: 15px;
+  width: calc(100% - 20px);
+  background: #60161E;
+  color: white;
+  border: 1px solid red;
+  border-top: none;
+  z-index: 20;
+  white-space: normal;
 }
 /*End:: Explorer*/
 

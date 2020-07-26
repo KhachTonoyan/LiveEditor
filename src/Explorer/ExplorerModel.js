@@ -1,28 +1,38 @@
 import { getActiveParent } from './helper.js';
 import state from '../State/State.js';
 
-const removeButton = document.getElementById('removeFile');
-
+// const test = document.getElementById('testModel');
 class ExplorerModel {
   constructor() {
     this.root = state.root;
     this.active = this.root;
 
-    removeButton.onclick = () => {
-      this.remove(this.active);
-    };
+    // test.onclick = () => {
+    //   console.log(this.root, this.active)
+    // }
   }
 
     toggleExpanded = () => {
       this.active.expanded = !this.active.expanded;
-    }
+    };
+
+    expand = (bool) => {
+      let { active } = this;
+      if (this.active.type === 'file') {
+        active = this.active.parent;
+      }
+      active.expanded = bool;
+    };
 
     create = (name, type) => {
       const activeFolder = getActiveParent(this.active); // folder is returned
-      state.create(name, type, activeFolder);
+      const creating = state.create(name, type, activeFolder);
+      this.active = activeFolder.children[name];
+      return creating;
     };
 
-    remove = (active) => {
+    remove = () => {
+      const { active } = this;
       if (active.parent) {
         this.active = active.parent;
       }

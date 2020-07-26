@@ -12,6 +12,8 @@ class ExplorerController {
     this.model.bindRenderExplorer(() => this.view.renderExplorer(this.model.root, this.view.list));
     this.view.bindSetActive(this.model.setActive.bind(this.model));
     this.view.bindToggleExpanded(this.model.toggleExpanded);
+    this.view.bindExpandInModel(this.model.expand);
+    this.view.bindClickRemove(this.model.remove);
   }
 }
 
