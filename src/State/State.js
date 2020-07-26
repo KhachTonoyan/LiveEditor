@@ -36,7 +36,7 @@ class State {
 
       this.updateUI();
       return true;
-    }
+    };
 
     move() {
       // ...
