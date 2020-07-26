@@ -45,8 +45,4 @@ class SearchView {
   }
 }
 
-var i = 1;
-
-i++;
-
 export default SearchView;
