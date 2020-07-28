@@ -6,13 +6,13 @@ import Folder from '../Entities/Folder.js';
 const root = new Folder('root', null, null, 'root');
 const ch = new Folder('src', root);
 root.children = {
-  'index.js': new File('index.js', root, `${'abcneedle'.repeat(100)}`),
+  'index.js': new File('index.js', root, `${'hello!\nearly\ncanal\nrodeo\nlate latte'}`),
   src: ch,
   fold: new Folder(
     'fold',
     root,
     {
-      'i.js': new File('i.js', { name: 'fold' }, `${'asdnee'.repeat(100)}`),
+      // 'i.js': new File('i.js', { name: 'fold' }, `${'asdnee \n'.repeat(100)}`),
     },
     'id',
   ),
@@ -53,7 +53,7 @@ function searchUtil(values, pattern) {
 
       if (results.length !== 0) {
         path += `/${v.name}`;
-        results.forEach((i) => controller.updateResults(`${path} at index ${i}`));
+        results.forEach((i) => controller.updateResults(`${path} ${i}`));
 
         path = '';
       } else {
@@ -99,14 +99,23 @@ function KMP(content, pattern) {
   let j = 0;
   let i = 0;
 
+  let line = 1;
+  let column = 0;
+
   while (i < n) {
+    if (/\n/.exec(content.charAt(i))) {
+      line += 1;
+      column = -1;
+    }
     if (content.charAt(i) === pattern.charAt(j)) {
       i++;
+      column++;
       j++;
     }
 
     if (j === m) {
-      results.push(i - j);
+      // results.push(i - j);
+      results.push(`at line ${line} column ${column}`);
       j = prefixSuffix[j - 1];
     } else if (i < n && pattern.charAt(j) !== content.charAt(i)) {
       /*
@@ -114,7 +123,10 @@ function KMP(content, pattern) {
           prefix end.
         */
       if (j !== 0) j = prefixSuffix[j - 1];
-      else i += 1;
+      else {
+        i += 1;
+        column++;
+      }
     }
   }
   return results;
