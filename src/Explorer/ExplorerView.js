@@ -2,12 +2,11 @@ import { createElement, getElement, sortExplorer } from './helper.js';
 
 class ExplorerView {
   constructor() {
-    // this.test = getElement('test');
-
     this.createFile = getElement('createFile');
     this.createFolder = getElement('createFolder');
     this.remove = getElement('remove');
     this.overlay = getElement('overlay');
+    this.sidebarToggle = getElement('sidebar-toggle');
 
     this.root = getElement('root');
     this.list = createElement('ul');
@@ -36,228 +35,263 @@ class ExplorerView {
     this.createFolder.onclick = this.clickCreate.bind(this, 'folder');
     this.remove.addEventListener('click', this.clickRemove.bind(this));
 
+    // resizing
+    this.dragging = 0;
+    this.body = document.body;
+    this.dragbar = getElement('dragbar');
+
+    this.dragbar.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      this.dragging = 1;
+      this.body.addEventListener('mousemove', this.resize);
+      this.body.classList.add('resizing');
+    });
+
+    document.addEventListener('mouseup', () => {
+      this.dragging ? this.clearJSEvents() : '';
+    });
+
+    this.sidebarToggle.addEventListener('click', () => {
+      const container = getElement('container');
+      const explorer = getElement('explorer');
+
+      container.classList.toggle('explorer-closed');
+      explorer.classList.toggle('explorer-closed');
+    });
+
+    // this.test = getElement('test');
     // this.test.onclick =() => {
     //   console.log(this.selectedElement)
     // }
   }
 
-    clickRemove = () => {
-      const selected = this.selectedElement.parentElement.parentElement;
-      const path = this.getPathPartial(selected);
-      this.clickRemove();
+  clearJSEvents = () => {
+    this.dragging = 0;
+    this.body.removeEventListener('mousemove', this.resize);
+    this.body.classList.remove('resizing');
+  };
 
-      let el = this.root;
-      for (const p of path) {
-        el = el.lastChild.querySelector(`[data-name='${p}']`);
-      }
+  resize = (e) => {
+    if (e.pageX < 200 || e.pageX > document.documentElement.clientWidth - 200) return;
+    this.body.style.setProperty('--left-width', `${e.pageX}px`);
+  };
 
-      this.highlight(el);
+  clickRemove = () => {
+    const selected = this.selectedElement.parentElement.parentElement;
+    const path = this.getPathPartial(selected);
+    this.clickRemove();
 
-      this.selectedElement = el;
-    };
+    let el = this.root;
+    for (const p of path) {
+      el = el.lastChild.querySelector(`[data-name='${p}']`);
+    }
 
-    clickCreate = (type) => {
-      let selected = this.selectedElement;
-      if (selected.classList.contains('file')) {
-        selected = selected.parentElement.parentElement;
-      }
+    this.highlight(el);
 
-      this.overlay.style.display = 'block';
-      const path = this.getPathPartial(selected);
+    this.selectedElement = el;
+  };
 
-      selected.classList.add('expand');
+  clickCreate = (type) => {
+    let selected = this.selectedElement;
+    if (selected.classList.contains('file')) {
+      selected = selected.parentElement.parentElement;
+    }
 
-      this.expandInModel(true);
+    this.overlay.style.display = 'block';
+    const path = this.getPathPartial(selected);
 
-      const list = selected.querySelector('ul');
+    selected.classList.add('expand');
 
-      const li = createElement('li');
-      if (type === 'file') {
-        li.classList.add('file', 'input');
+    this.expandInModel(true);
+
+    const list = selected.querySelector('ul');
+
+    const li = createElement('li');
+    if (type === 'file') {
+      li.classList.add('file', 'input');
+    } else {
+      li.classList.add('folder', 'input');
+    }
+
+    const input = createElement('input', null, 'create-input-field');
+
+    li.append(input);
+    list.prepend(li);
+
+    const create = (e) => {
+      const { target } = e;
+
+      if (!target.value && li.parentElement || e.key === 'Escape') {
+        try {
+          li.remove();
+        } catch (e) {
+          console.log('');
+        }
       } else {
-        li.classList.add('folder', 'input');
-      }
+        const creation = this.create(target.value, type);
 
-      const input = createElement('input', null, 'create-input-field');
+        if (!creation) {
+          const span = createElement('span', null, 'warning');
+          span.textContent = `A file or folder '${target.value}' already exists at this location. Please choose a different name.`;
+          target.parentElement.append(span);
+          target.classList.add('danger');
 
-      li.append(input);
-      list.prepend(li);
-
-      const create = (e) => {
-        const { target } = e;
-
-        if (!target.value && li.parentElement || e.key === 'Escape') {
-          try {
+          input.addEventListener('blur', () => {
             li.remove();
-          } catch (e) {
-            console.log('');
-          }
-        } else {
-          const creation = this.create(target.value, type);
 
-          if (!creation) {
-            this.warning = true;
-            const span = createElement('span', null, 'warning');
-            span.innerHTML = `A file or folder <b>${target.value}</b> already exists at this location. Please choose a different name.`;
-            target.parentElement.append(span);
-            target.classList.add('danger');
-
-            input.addEventListener('blur', () => {
-              li.remove();
-
-              this.overlay.style.display = 'none';
-            });
-            return;
-          }
-
-          let el = this.root;
-          for (const p of path) {
-            el = el.lastChild.querySelector(`[data-name='${p}']`);
-          }
-          el = el.lastChild.querySelector(`[data-name='${target.value}']`);
-
-          this.highlight(el);
-
-          this.selectedElement = el;
+            this.overlay.style.display = 'none';
+          });
+          return;
         }
-        this.overlay.style.display = 'none';
-      };
 
-      input.focus();
-      input.addEventListener('keyup', (e) => {
-        if (e.keyCode === 13) {
-          input.removeEventListener('blur', create);
-          create(e);
-        } else if (e.keyCode === 27) {
-          input.removeEventListener('blur', create);
-          create(e);
+        let el = this.root;
+        for (const p of path) {
+          el = el.lastChild.querySelector(`[data-name='${p}']`);
         }
-      });
+        el = el.lastChild.querySelector(`[data-name='${target.value}']`);
 
-      input.addEventListener('blur', create);
+        this.highlight(el);
+
+        this.selectedElement = el;
+      }
+      this.overlay.style.display = 'none';
     };
 
-    renderExplorer(rootObj, list) {
-      this.list.innerHTML = '';
-      const self = this;
-      function renderTree(rootObj, list) {
-        if (rootObj) {
-          const keys = Object.keys(rootObj.children);
+    input.focus();
+    input.addEventListener('keyup', (e) => {
+      if (e.keyCode === 13) {
+        input.removeEventListener('blur', create);
+        create(e);
+      } else if (e.keyCode === 27) {
+        input.removeEventListener('blur', create);
+        create(e);
+      }
+    });
 
-          sortExplorer(keys, rootObj);
+    input.addEventListener('blur', create);
+  };
 
-          for (const key of keys) {
-            if (rootObj.children[key].type === 'file') {
-              const listFileItem = document.createElement('li');
-              listFileItem.setAttribute('data-name', key);
-              listFileItem.classList.add('file', `${self.checkExtension(key)}`);
-              listFileItem.addEventListener('click', self.setSelectedElement);
-              listFileItem.addEventListener('click', self.getPath);
-              const span = createElement('span');
-              span.innerHTML = key;
-              listFileItem.append(span);
-              list.append(listFileItem);
-            } else {
-              const listFolderItem = document.createElement('li');
-              listFolderItem.addEventListener('click', self.setSelectedElement);
-              listFolderItem.addEventListener('click', self.getPath);
-              listFolderItem.setAttribute('data-name', key);
-              if (rootObj.children[key].expanded) {
-                listFolderItem.classList.add('expand');
-              }
-              listFolderItem.classList.add('folder');
-              const span = createElement('span');
-              span.innerHTML = key;
-              listFolderItem.append(span);
-              const innerList = document.createElement('ul');
-              listFolderItem.append(innerList);
-              list.append(listFolderItem);
-              renderTree(rootObj.children[key], innerList);
+  renderExplorer(rootObj, list) {
+    this.list.innerHTML = '';
+    const self = this;
+    function renderTree(rootObj, list) {
+      if (rootObj) {
+        const keys = Object.keys(rootObj.children);
+
+        sortExplorer(keys, rootObj);
+
+        for (const key of keys) {
+          if (rootObj.children[key].type === 'file') {
+            const listFileItem = document.createElement('li');
+            listFileItem.setAttribute('data-name', key);
+            listFileItem.classList.add('file', `${self.checkExtension(key)}`);
+            listFileItem.addEventListener('click', self.setSelectedElement);
+            listFileItem.addEventListener('click', self.getPath);
+            const span = createElement('span');
+            span.innerHTML = key;
+            listFileItem.append(span);
+            list.append(listFileItem);
+          } else {
+            const listFolderItem = document.createElement('li');
+            listFolderItem.addEventListener('click', self.setSelectedElement);
+            listFolderItem.addEventListener('click', self.getPath);
+            listFolderItem.setAttribute('data-name', key);
+            if (rootObj.children[key].expanded) {
+              listFolderItem.classList.add('expand');
             }
+            listFolderItem.classList.add('folder');
+            const span = createElement('span');
+            span.innerHTML = key;
+            listFolderItem.append(span);
+            const innerList = document.createElement('ul');
+            listFolderItem.append(innerList);
+            list.append(listFolderItem);
+            renderTree(rootObj.children[key], innerList);
           }
         }
       }
-      renderTree(rootObj, list);
+    }
+    renderTree(rootObj, list);
+  }
+
+  checkExtension = (file) => {
+    const str = file.trim();
+
+    if (str.endsWith('.js')) {
+      return 'js';
+    } if (str.endsWith('.css')) {
+      return 'css';
+    } if (str.endsWith('.html')) {
+      return 'html';
+    }
+    return 'file';
+  };
+
+  setSelectedElement = (e) => {
+    if (e.target.id === 'root_folder') return;
+    const target = e.target.closest('li[data-name]');
+
+    this.highlight(target);
+
+    this.selectedElement = target;
+  };
+
+  highlight = (newElem) => {
+    this.selectedElement.querySelector('span').classList.remove('selected');
+    newElem.querySelector('span').classList.add('selected');
+  };
+
+  getPath = (e) => {
+    let target = e.target.closest('li[data-name]');
+
+    const path = [];
+    while (target.id !== 'root') {
+      path.unshift(target.dataset.name);
+      target = target.parentElement.parentElement;
+    }
+    this.selectedElementPath = path;
+    this.setActive(this.selectedElementPath);
+  };
+
+  getPathPartial = (el) => {
+    const path = [];
+
+    while (el.id !== 'root') {
+      path.unshift(el.dataset.name);
+      el = el.parentElement.parentElement;
     }
 
-    checkExtension = (file) => {
-      const str = file.trim();
+    return path;
+  };
 
-      if (str.endsWith('.js')) {
-        return 'js';
-      } if (str.endsWith('.css')) {
-        return 'css';
-      } if (str.endsWith('.html')) {
-        return 'html';
-      }
-      return 'file';
-    };
+  expand = (e) => {
+    if (e.target.closest('li.file') || e.target.id === 'root_folder' || e.target.classList.contains('create-input-field')) return;
+    const target = e.target.closest('li.folder[data-name]');
 
-    setSelectedElement = (e) => {
-      if (e.target.id === 'root_folder') return;
-      const target = e.target.closest('li[data-name]');
+    target.classList.toggle('expand');
 
-      this.highlight(target);
+    this.toggleExpanded(this.selectedElementPath);
+  };
 
-      this.selectedElement = target;
-    };
+  bindOnCreate = (cb) => {
+    this.create = cb;
+  };
 
-    highlight = (newElem) => {
-      this.selectedElement.querySelector('span').classList.remove('selected');
-      newElem.querySelector('span').classList.add('selected');
-    };
+  bindSetActive(cb) {
+    this.setActive = cb;
+  }
 
-    getPath = (e) => {
-      let target = e.target.closest('li[data-name]');
+  bindToggleExpanded(cb) {
+    this.toggleExpanded = cb;
+  }
 
-      const path = [];
-      while (target.id !== 'root') {
-        path.unshift(target.dataset.name);
-        target = target.parentElement.parentElement;
-      }
-      this.selectedElementPath = path;
-      this.setActive(this.selectedElementPath);
-    };
+  bindClickRemove(cb) {
+    this.clickRemove = cb;
+  }
 
-    getPathPartial = (el) => {
-      const path = [];
-
-      while (el.id !== 'root') {
-        path.unshift(el.dataset.name);
-        el = el.parentElement.parentElement;
-      }
-
-      return path;
-    };
-
-    expand = (e) => {
-      if (e.target.closest('li.file') || e.target.id === 'root_folder' || e.target.classList.contains('create-input-field')) return;
-      const target = e.target.closest('li.folder[data-name]');
-
-      target.classList.toggle('expand');
-
-      this.toggleExpanded(this.selectedElementPath);
-    };
-
-    bindOnCreate = (cb) => {
-      this.create = cb;
-    };
-
-    bindSetActive(cb) {
-      this.setActive = cb;
-    }
-
-    bindToggleExpanded(cb) {
-      this.toggleExpanded = cb;
-    }
-
-    bindClickRemove(cb) {
-      this.clickRemove = cb;
-    }
-
-    bindExpandInModel(cb) {
-      this.expandInModel = cb;
-    }
+  bindExpandInModel(cb) {
+    this.expandInModel = cb;
+  }
 }
 
 export default ExplorerView;

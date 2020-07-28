@@ -5,23 +5,9 @@
     display: flex;
 }
 
-#explorer{
-    width: 400px;
-    height: 800px;
-    border: 1px solid black;
-}
-
-#container{
-    position: relative;
-    width: 800px;
-    height: 800px;
-    border: 1px solid black;
-}
-
 #tab{
     width: 100%;
     height: 30px;
-    border: 1px solid black;
 }
 #content{
   resize: none;
@@ -32,12 +18,36 @@
   height: 770px;
 }
 
-/* .root {
+/*Begin:: Scrollbar*/
 
-} */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/*End:: Scrollbar*/
+
 /*Begin:: Explorer*/
 .explorer {
   position: relative;
+  overflow: hidden;
+  padding-left: 40px;
+}
+
+.explorer.explorer-closed {
+  display: none;
 }
 
 .explorer .overlay {
@@ -51,9 +61,20 @@
   display: none;
 }
 
+.root {
+  overflow: auto;
+  height: calc(100% - 28px);
+}
+
 .root ul {
-  padding-left: 20px;
+  padding-left: 15px;
   list-style-type: none;
+}
+
+.root>ul {
+  width: fit-content;
+  min-width: 100%;
+  padding-bottom: 10px;
 }
 
 .explorer-icons {
@@ -73,7 +94,7 @@
 
 .selected {
   position: relative;
-  width: calc(100% - 20px);
+  width: calc(100% - 21px);
   display: inline-block;
   z-index: 1;
 }
@@ -89,40 +110,15 @@
   border-radius: 2px;
 }
 
-
-/*search start*/
-
-.searchPanel {
-  background-color: rgba(30, 30, 30, 96%);
-  color: #0e6b0e;
-  width: 700px;
-  overflow: auto;
-  height: 500px;
-  max-height: 700px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-weight: bolder;
-}
-
-#closeButton {
-  height: 25px;
-  width: 25px;
-  float: right;
-  font-size: large;
-}
-
-#searchBtn{
-  height: 50px;
-}
-
-/*search end*/
 li[data-name] {
   white-space: nowrap;
   user-select: none;
   cursor: pointer;
   color: white;
+}
+
+li[data-name] > span {
+  padding-right: 5px;
 }
 
 li.folder:before {
@@ -222,6 +218,96 @@ li.file.html:before {
   white-space: normal;
 }
 /*End:: Explorer*/
+
+/*Start:: Explorer resizing*/
+
+body {
+  height: 100vh;
+  --left-width: 300px;
+}
+
+body.resizing {
+  cursor: col-resize;
+}
+
+#container, #explorer, #dragbar {
+  top: 0;
+  height: 100%;
+  position: absolute;
+}
+
+#sidebar {
+  width: 40px;
+  height: 100%;
+  background-color: #333333;
+  position: relative;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+}
+
+#sidebar .sidebar-icon {
+  color: white;
+  font-size: 32px;
+  margin: 26px 0 0 6px;
+  cursor: pointer;
+}
+
+#explorer {
+  width: var(--left-width);
+}
+
+#container {
+  right: 0;
+  overflow: hidden;
+  width: calc(100% - var(--left-width));
+}
+
+#container.explorer-closed {
+  width: calc(100% - 40px)
+}
+
+#dragbar {
+  right: 0;
+  width: 4px;
+  opacity: 0;
+  z-index: 1;
+  cursor: col-resize;
+  background: #0099e5;
+  transition: 0.3s ease-in-out 0s, opacity 0.3s ease-in-out 0s;
+}
+
+#dragbar:hover, body.resizing #dragbar {
+  opacity: 1;
+  transition: 0.3s ease-in-out 0s;
+}
+
+/*End:: Explorer resizing*/
+
+/*search start*/
+
+.searchPanel {
+  background-color: rgba(30, 30, 30, 96%);
+  color: #0e6b0e;
+  width: 700px;
+  overflow: auto;
+  height: 500px;
+  max-height: 700px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bolder;
+}
+
+#closeButton {
+  height: 25px;
+  width: 25px;
+  float: right;
+  font-size: large;
+}
+
+/*search end*/
 
 /* Terminal */
 button{
