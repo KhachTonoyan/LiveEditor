@@ -56,7 +56,10 @@ function searchUtil(values, pattern) {
         results.forEach((i) => controller.updateResults(`${path} at index ${i}`));
 
         path = '';
-      } else controller.updateResults(`No result found in ${path} :(`);
+      } else {
+        controller.updateResults(`No result found in ${path} :(`);
+        path = '';
+      }
     } else if (v && v.type === 'folder') {
       // recursive step
       searchUtil(Object.values(v.children), pattern); // recurrence relation: O(n)
