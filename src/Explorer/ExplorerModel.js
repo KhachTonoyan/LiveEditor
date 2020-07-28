@@ -27,7 +27,9 @@ class ExplorerModel {
     create = (name, type) => {
       const activeFolder = getActiveParent(this.active); // folder is returned
       const creating = state.create(name, type, activeFolder);
-      this.active = activeFolder.children[name];
+      if (creating) {
+        this.active = activeFolder.children[name];
+      }
       return creating;
     };
 
