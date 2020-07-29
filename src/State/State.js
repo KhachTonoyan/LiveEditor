@@ -75,10 +75,53 @@ class State {
     // ... other function that will update ui anywhere
   }
 
-  bindRenderExplorer(cb) {
-    this.renderExplorer = cb;
-  }
+    bindRenderExplorer(cb) {
+      this.renderExplorer = cb;
+    }
 
+    updateTabsInState = (file, operation) => {
+      if (operation === 'select') {
+        this.activeTab = file;
+        if (!this.tabs.includes(file)) {
+          this.tabs.push(file);
+        }
+      } else if (operation === 'closeTab') {
+        this.tabs = this.tabs.filter((tab) => tab !== file);
+        this.activeTab = this.tabs[this.tabs.length - 1];
+      } else if (operation === 'createFile') {
+        this.tabs.push(file);
+        this.activeTab = file;
+      } else if (operation === 'removeFile') {
+        this.tabs = this.tabs.filter((tab) => tab !== file);
+        this.activeTab = this.tabs[this.tabs.length - 1];
+      } else if (operation === 'removeFolder') {
+        // here file is our deleting folder
+        const closingTabs = [];
+        this.tabs.forEach((tab) => {
+          let item = tab;
+          while (item.parent.id !== 'root') {
+            if (item.parent === file) {
+              closingTabs.push(tab);
+              break;
+            }
+            item = item.parent;
+          }
+        });
+        this.tabs = this.tabs.filter((tab) => closingTabs.indexOf(tab) === -1);
+        this.activeTab = this.tabs[this.tabs.length - 1];
+      } else if (operation === 'rename') {
+        // console.log('rename')
+      }
+      this.updateTabsInModel(this.activeTab, operation, this.tabs);
+    };
+    saveTabContent = (file, content) => {
+      if (file) {
+        file.content = content;
+      }
+    };
+    bindUpdateTabsInModel = (cb) => {
+      this.updateTabsInModel = cb;
+    }
 }
 
 export default new State();
