@@ -7,10 +7,10 @@ class ExplorerModel {
     this.active = this.root;
     this.updateTabs = state.updateTabsInState;
 
-    this.test = document.getElementById('testModel')
-    this.test.onclick = () => {
-      console.log(this.root, this.active)
-    }
+    // this.test = document.getElementById('testModel')
+    // this.test.onclick = () => {
+    //   console.log(this.root, this.active)
+    // }
   }
 
     toggleExpanded = () => {
@@ -54,7 +54,7 @@ class ExplorerModel {
     };
 
     rename = (newName) => {
-      if(this.active.id === 'root') return;
+      if (this.active.id === 'root') return;
       state.myRename(this.active, newName);
     };
 

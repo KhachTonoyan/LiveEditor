@@ -62,10 +62,10 @@ class ExplorerView {
       explorer.classList.toggle('explorer-closed');
     });
 
-    this.test = getElement('test');
-    this.test.onclick =() => {
-      console.log(this.selectedElement)
-    }
+    // this.test = getElement('test');
+    // this.test.onclick =() => {
+    //   console.log(this.selectedElement)
+    // }
   }
 
   clearJSEvents = () => {
@@ -187,44 +187,42 @@ class ExplorerView {
     input.value = this.selectedElement.dataset.name;
     this.selectedElement.querySelector('span').remove();
     this.selectedElement.append(input);
-
   };
 
   submitRename = () => {
-    let newName = 'something'; // petq a argumnetic ga
+    const newName = 'something'; // petq a argumnetic ga
 
-    if(this.selectedElement.parentElement.parentElement.id === 'root') {
+    if (this.selectedElement.parentElement.parentElement.id === 'root') {
       console.log('Not allowed to change root folder\'s name!');
       return;
     }
-    let siblings = this.selectedElement.parentElement.children;
+    const siblings = this.selectedElement.parentElement.children;
     let isExistItemWithThatName = false;
-    for(let sibling of siblings) {
-      if(sibling === this.selectedElement) continue;
-      if(sibling.dataset.name === newName) {
-        isExistItemWithThatName = true
+    for (const sibling of siblings) {
+      if (sibling === this.selectedElement) continue;
+      if (sibling.dataset.name === newName) {
+        isExistItemWithThatName = true;
       }
     }
-    console.log("isExist", isExistItemWithThatName);
-    if(isExistItemWithThatName) return;
-
+    console.log('isExist', isExistItemWithThatName);
+    if (isExistItemWithThatName) return;
 
     // console.log(this.selectedElement.parentElement.parentElement); return ;
     // qani vor im ui@ u state arandzin en update linum es petq a arandzin update anem iranc
     // nax update anenq state@
-    let path = this.selectedElementPath.slice(0, this.selectedElementPath.length - 1);
-    path.push(newName)
-    console.log(path)
+    const path = this.selectedElementPath.slice(0, this.selectedElementPath.length - 1);
+    path.push(newName);
+    console.log(path);
     this.rename(newName);
-    //esi vercnum a path@ minchev naxord element@
+    // esi vercnum a path@ minchev naxord element@
 
-    //hima highligh anenq active element@ u  active@ berenq ira vra
+    // hima highligh anenq active element@ u  active@ berenq ira vra
     let el = this.root;
-    for(let item of path) {
-      el = el.querySelector(`[data-name='${item}']`)
+    for (const item of path) {
+      el = el.querySelector(`[data-name='${item}']`);
     }
     this.selectedElement = el;
-    this.highlight(el)
+    this.highlight(el);
   };
 
   renderExplorer(rootObj, list) {
@@ -336,7 +334,7 @@ class ExplorerView {
   }
 
   bindRename(cb) {
-    this.rename = cb
+    this.rename = cb;
   }
 }
 
