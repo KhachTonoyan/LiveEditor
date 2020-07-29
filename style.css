@@ -376,3 +376,80 @@ button{
     }
   }
   
+/*Begin:: Tabs*/
+#tabs {
+  height: 35px;
+}
+.tabs-container {
+  display: flex;
+  list-style: none;
+  color: white;
+  background-color: #252525;
+  height: 100%;
+}
+.tabs-container .tab {
+  cursor: pointer;
+  background-color: #2D2D2D;
+  margin-right: 2px;
+  display: flex;
+  align-self: center;
+  justify-content: space-between;
+  padding: 10px 6px;
+  min-width: 100px;
+  color: #d3d3d3;
+}
+.tabs-container .tab.tab-active {
+  background-color: #1E1E1E;
+  color: white;
+}
+.tab-name {
+  padding-right: 10px;
+  user-select: none;
+  white-space: nowrap;
+}
+.tab-close {
+  font-size: 13px;
+  line-height: 18px;
+}
+.tab.html .tab-name:before {
+  font-family: "Font Awesome 5 Brands";
+  color: #E44D26;
+  content: '\f13b';
+  padding-left: 2px;
+  padding-right: 6px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.tab.css .tab-name:before {
+  font-family: "Font Awesome 5 Brands";
+  color: #264de4;
+  content: '\f38b';
+  padding-left: 2px;
+  padding-right: 6px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.tab.js .tab-name:before {
+  font-family: "Font Awesome 5 Brands";
+  color: #FEE650;
+  content: '\f3b9';
+  padding-left: 1px;
+  padding-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.tab.file .tab-name:before {
+  font-family: "Font Awesome 5 Free";
+  color: #3778EA;
+  content: "\f15c";
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 2px;
+  padding-right: 6px;
+  z-index: 2;
+  position: relative;
+}
+.tab.file:before {
+  display: none;
+}
+/*End:: Tabs*/
