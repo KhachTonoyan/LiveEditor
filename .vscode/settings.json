@@ -1,6 +1,0 @@
-{
-    "prettier.configPath": ".prettierrc.js",
-    "prettier.trailingComma": "all",
-    "prettier.useEditorConfig": false,
-    "prettier.singleQuote": true
-}

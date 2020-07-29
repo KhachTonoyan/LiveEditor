@@ -1,13 +1,14 @@
-import { getActiveParent } from './helper.js';
+import { getActiveParent } from '../helper.js';
 import state from '../State/State.js';
 
-// const test = document.getElementById('testModel');
 class ExplorerModel {
   constructor() {
     this.root = state.root;
     this.active = this.root;
+    this.updateTabs = state.updateTabsInState;
 
-    // test.onclick = () => {
+    // this.test = document.getElementById('testModel')
+    // this.test.onclick = () => {
     //   console.log(this.root, this.active)
     // }
   }
@@ -27,16 +28,34 @@ class ExplorerModel {
     create = (name, type) => {
       const activeFolder = getActiveParent(this.active); // folder is returned
       const creating = state.create(name, type, activeFolder);
-      this.active = activeFolder.children[name];
+      if (creating) {
+        this.active = activeFolder.children[name];
+        if (type === 'file') {
+          this.updateTabs(this.active, 'createFile');
+        }
+      }
+
       return creating;
     };
 
     remove = () => {
       const { active } = this;
+
+      if (active.type === 'file') {
+        this.updateTabs(active, 'removeFile');
+      } else {
+        this.updateTabs(active, 'removeFolder');
+      }
+
       if (active.parent) {
         this.active = active.parent;
       }
       state.remove(active);
+    };
+
+    rename = (newName) => {
+      if (this.active.id === 'root') return;
+      state.myRename(this.active, newName);
     };
 
     setActive(path) {
@@ -46,6 +65,10 @@ class ExplorerModel {
         active = active.children[key];
       }
       this.active = active;
+
+      if (this.active.type === 'file') {
+        this.updateTabs(this.active, 'select');
+      }
     }
 
     bindRenderExplorer(cb) {
