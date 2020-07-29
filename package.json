@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint ./src ./public",
     "lint:fix": "eslint ./src ./public --fix",
-    "start": "node ./public/server.js"
+    "start": "node ./public/server.js",
+    "start:dev": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -44,6 +45,7 @@
     "prettier": "2.0.5",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   }
 }
