@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Editor</title>
+     <!-- update the version number as needed -->
+     <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+     <!-- include only the Firebase features as you need -->
+     <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+     <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
+     <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-messaging.js"></script>
+     <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-storage.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div id="sidebar">
+            <i class="far fa-copy sidebar-icon" id="sidebar-toggle"></i>
+            <i class="fas fa-search sidebar-icon" id="searchBtn"></i>
+        </div>
+        <div id="explorer" class="explorer">
+            <div id="overlay" class="overlay"></div>
+            <div class="explorer-icons">
+                <i class="far fa-edit explorer-icon" id="rename"></i>
+                <i class="far fa-plus-square explorer-icon" id="createFile"></i>
+                <i class="fas fa-folder-plus explorer-icon" id="createFolder"></i>
+                <i class="far fa-trash-alt explorer-icon" id="remove"></i>
+                <!--<button id="test">V</button>-->
+                <!--<button id="testModel">M</button>-->
+                <!--<button id="testState">S</button>-->
+            </div>
+
+            <div id="root" class="root"></div>
+            <div id="dragbar"></div>
+        </div>
+        <div id="container">
+            <div id="tabs"></div>
+            <div id="editor">
+                <textarea id="content"></textarea>
+            </div>
+            <div id="authModal">
+                <button id="closeModal"><i class="fas fa-times"></i></button>
+                <p id="errorMessage"></p>
+                <form id="authForm">
+                    <input id="email" type="email" placeholder="Email"/>
+                    <input id="password" type="password" placeholder="Password" />
+                    <button type="submit"><i class="fas fa-sign-in-alt"></i></button>
+                </form>
+            </div>
+            <button id="save" disabled><i class="far fa-save"></i></button>
+            <button id="signin">Sign in</button>
+            <button id="signup">Sign up</button>
+            <button id="terminalBtn"><i class="fas fa-terminal"></i></button>
+            <div id="terminal">
+                <p class="termNav"><button id="closeTerminal"><i class="fas fa-times"></i></button></p>
+                <div id="terminalContent"></div>
+            </div>
+        </div>
+    </div>
+    <script src = "script.js"></script>
+</body>
+</html>

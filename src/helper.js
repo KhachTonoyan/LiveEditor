@@ -34,6 +34,19 @@ function sortExplorer(items, root) {
   });
 }
 
+function checkExtension(file) {
+  const str = file.trim();
+
+  if (str.endsWith('.js')) {
+    return 'js';
+  } if (str.endsWith('.css')) {
+    return 'css';
+  } if (str.endsWith('.html')) {
+    return 'html';
+  }
+  return 'file';
+}
+
 export {
-  createElement, getElement, isFile, getActiveParent, sortExplorer,
+  createElement, getElement, isFile, getActiveParent, sortExplorer, checkExtension,
 };

@@ -1,11 +1,13 @@
 import TerminalModel from './TerminalModel.js';
 import TerminalView from './TerminalView.js';
+import state from '../State/State.js';
 
 class TerminalController {
   constructor(model, view) {
     this.model = model;
     this.view = view;
 
+    state.bindUpdateTerminal(this.model.update);
     this.view.bindOnGetPath(this.model.getPath);
     this.view.bindPathAction(this.model.changeLocation);
     this.view.bindOpenFile(this.model.openFile);

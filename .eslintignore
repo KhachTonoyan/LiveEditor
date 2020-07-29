@@ -2,3 +2,5 @@ node_modules
 /.vscode
 /.git
 /.eslintrc.js
+webpack.config.js
+public

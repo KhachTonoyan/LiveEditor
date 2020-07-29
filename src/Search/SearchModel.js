@@ -21,7 +21,7 @@ root.children = {
 ch.children = { data: new Folder('data', {}) };
 root.children.src.children.data.parent = root.children.src;
 
-console.log(root);
+// console.log(root);
 
 // memoization container
 const map = new Map();

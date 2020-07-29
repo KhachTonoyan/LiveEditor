@@ -1,10 +1,13 @@
-import { createElement, getElement, sortExplorer } from './helper.js';
+import {
+  createElement, getElement, sortExplorer, checkExtension,
+} from '../helper.js';
 
 class ExplorerView {
   constructor() {
     this.createFile = getElement('createFile');
     this.createFolder = getElement('createFolder');
-    this.remove = getElement('remove');
+    this.removeBtn = getElement('remove');
+    this.renameBtn = getElement('rename');
     this.overlay = getElement('overlay');
     this.sidebarToggle = getElement('sidebar-toggle');
 
@@ -33,8 +36,8 @@ class ExplorerView {
 
     this.createFile.onclick = this.clickCreate.bind(this, 'file');
     this.createFolder.onclick = this.clickCreate.bind(this, 'folder');
-    this.remove.addEventListener('click', this.clickRemove.bind(this));
-
+    this.removeBtn.addEventListener('click', this.clickRemove.bind(this));
+    this.renameBtn.addEventListener('click', this.clickRename.bind(this));
     // resizing
     this.dragging = 0;
     this.body = document.body;
@@ -72,12 +75,17 @@ class ExplorerView {
   };
 
   resize = (e) => {
-    if (e.pageX < 200 || e.pageX > document.documentElement.clientWidth - 200) return;
+    if (e.pageX < 200 || e.pageX > document.documentElement.clientWidth - 400) return;
     this.body.style.setProperty('--left-width', `${e.pageX}px`);
   };
 
   clickRemove = () => {
-    const selected = this.selectedElement.parentElement.parentElement;
+    let selected;
+    if (this.selectedElement.id === 'root') {
+      selected = this.selectedElement;
+    } else {
+      selected = this.selectedElement.parentElement.parentElement;
+    }
     const path = this.getPathPartial(selected);
     this.clickRemove();
 
@@ -152,6 +160,7 @@ class ExplorerView {
 
         this.highlight(el);
 
+        this.selectedElementPath = this.getPathPartial(el);
         this.selectedElement = el;
       }
       this.overlay.style.display = 'none';
@@ -171,6 +180,51 @@ class ExplorerView {
     input.addEventListener('blur', create);
   };
 
+  clickRename = () => {
+    console.log(this.selectedElement);
+    const input = createElement('input', null, 'rename-input');
+    this.overlay.style.display = 'block';
+    input.value = this.selectedElement.dataset.name;
+    this.selectedElement.querySelector('span').remove();
+    this.selectedElement.append(input);
+  };
+
+  submitRename = () => {
+    const newName = 'something'; // petq a argumnetic ga
+
+    if (this.selectedElement.parentElement.parentElement.id === 'root') {
+      console.log('Not allowed to change root folder\'s name!');
+      return;
+    }
+    const siblings = this.selectedElement.parentElement.children;
+    let isExistItemWithThatName = false;
+    for (const sibling of siblings) {
+      if (sibling === this.selectedElement) continue;
+      if (sibling.dataset.name === newName) {
+        isExistItemWithThatName = true;
+      }
+    }
+    console.log('isExist', isExistItemWithThatName);
+    if (isExistItemWithThatName) return;
+
+    // console.log(this.selectedElement.parentElement.parentElement); return ;
+    // qani vor im ui@ u state arandzin en update linum es petq a arandzin update anem iranc
+    // nax update anenq state@
+    const path = this.selectedElementPath.slice(0, this.selectedElementPath.length - 1);
+    path.push(newName);
+    console.log(path);
+    this.rename(newName);
+    // esi vercnum a path@ minchev naxord element@
+
+    // hima highligh anenq active element@ u  active@ berenq ira vra
+    let el = this.root;
+    for (const item of path) {
+      el = el.querySelector(`[data-name='${item}']`);
+    }
+    this.selectedElement = el;
+    this.highlight(el);
+  };
+
   renderExplorer(rootObj, list) {
     this.list.innerHTML = '';
     const self = this;
@@ -184,9 +238,9 @@ class ExplorerView {
           if (rootObj.children[key].type === 'file') {
             const listFileItem = document.createElement('li');
             listFileItem.setAttribute('data-name', key);
-            listFileItem.classList.add('file', `${self.checkExtension(key)}`);
+            listFileItem.classList.add('file', `${checkExtension(key)}`);
             listFileItem.addEventListener('click', self.setSelectedElement);
-            listFileItem.addEventListener('click', self.getPath);
+            // listFileItem.addEventListener('click', self.getPath);
             const span = createElement('span');
             span.innerHTML = key;
             listFileItem.append(span);
@@ -194,7 +248,7 @@ class ExplorerView {
           } else {
             const listFolderItem = document.createElement('li');
             listFolderItem.addEventListener('click', self.setSelectedElement);
-            listFolderItem.addEventListener('click', self.getPath);
+            // listFolderItem.addEventListener('click', self.getPath);
             listFolderItem.setAttribute('data-name', key);
             if (rootObj.children[key].expanded) {
               listFolderItem.classList.add('expand');
@@ -213,19 +267,6 @@ class ExplorerView {
     }
     renderTree(rootObj, list);
   }
-
-  checkExtension = (file) => {
-    const str = file.trim();
-
-    if (str.endsWith('.js')) {
-      return 'js';
-    } if (str.endsWith('.css')) {
-      return 'css';
-    } if (str.endsWith('.html')) {
-      return 'html';
-    }
-    return 'file';
-  };
 
   setSelectedElement = (e) => {
     if (e.target.id === 'root_folder') return;
@@ -255,7 +296,6 @@ class ExplorerView {
 
   getPathPartial = (el) => {
     const path = [];
-
     while (el.id !== 'root') {
       path.unshift(el.dataset.name);
       el = el.parentElement.parentElement;
@@ -291,6 +331,10 @@ class ExplorerView {
 
   bindExpandInModel(cb) {
     this.expandInModel = cb;
+  }
+
+  bindRename(cb) {
+    this.rename = cb;
   }
 }
 
