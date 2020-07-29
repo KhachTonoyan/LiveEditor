@@ -16,20 +16,22 @@
         <div id="explorer" class="explorer">
             <div id="overlay" class="overlay"></div>
             <div class="explorer-icons">
+                <i class="far fa-edit explorer-icon" id="rename"></i>
                 <i class="far fa-plus-square explorer-icon" id="createFile"></i>
                 <i class="fas fa-folder-plus explorer-icon" id="createFolder"></i>
                 <i class="far fa-trash-alt explorer-icon" id="remove"></i>
-                <!--<button id="test">V</button>-->
-                <!--<button id="testModel">M</button>-->
+                <button id="test">V</button>
+                <button id="testModel">M</button>
+                <button id="testState">S</button>
             </div>
 
             <div id="root" class="root"></div>
             <div id="dragbar"></div>
         </div>
         <div id="container">
-            <div id="tab"></div>
+            <div id="tabs"></div>
             <div id="editor">
-                <textarea name="" id="content" cols="60" rows="40"></textarea>
+                <textarea id="content"></textarea>
             </div>
             <button id="terminalBtn"><i class="fas fa-terminal"></i></button>
             <div id="terminal">
@@ -37,9 +39,6 @@
                 <div id="terminalContent"></div>
             </div>
         </div>
-
-        
-        <!--<button id = "searchBtn"> Search </button>-->
     </div>
     <script src="script.js" type="module"></script>
 </body>
