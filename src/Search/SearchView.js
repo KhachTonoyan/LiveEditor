@@ -6,14 +6,30 @@ class SearchView {
     const topPanel = document.createElement('div');
     topPanel.id = 'topPanel';
 
+    const fieldNameSearch = document.createElement('p');
+    fieldNameSearch.textContent = 'Search:';
+    fieldNameSearch.style.marginBottom = '1px';
+    topPanel.appendChild(fieldNameSearch);
+
     this.input = document.createElement('input');
     this.input.id = 'searchInput';
+    this.input.style.marginBottom = '1px';
     topPanel.appendChild(this.input);
 
-    const goButton = document.createElement('button');
-    goButton.id = 'go';
-    goButton.textContent = 'GO!';
-    topPanel.appendChild(goButton);
+    const fieldNameFilesToExclude = document.createElement('p');
+    fieldNameFilesToExclude.textContent = 'Files to exlude (comma-separated):';
+    fieldNameFilesToExclude.style.marginBottom = '1px';
+    topPanel.appendChild(fieldNameFilesToExclude);
+
+    this.filesExclude = document.createElement('input');
+    this.filesExclude.id = 'fteInput';
+    this.filesExclude.style.marginBottom = '1px';
+    topPanel.appendChild(this.filesExclude);
+
+    // const goButton = document.createElement('button');
+    // goButton.id = 'go';
+    // goButton.textContent = 'GO!';
+    // topPanel.appendChild(goButton);
 
     const closeButton = document.createElement('button');
     closeButton.id = 'closeButton';
@@ -21,7 +37,7 @@ class SearchView {
     closeButton.onclick = () => {
       document.getElementById('app').removeChild(this.searchPanel);
     };
-    topPanel.appendChild(closeButton);
+    this.searchPanel.appendChild(closeButton);
 
     this.searchPanel.appendChild(topPanel);
 
@@ -41,7 +57,7 @@ class SearchView {
 
   clearResultList() {
     this.resultsPanel.innerHTML = '';
-    this.input.value = '';
+    // this.input.value = '';
   }
 }
 

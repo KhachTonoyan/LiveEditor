@@ -7,6 +7,7 @@ const root = new Folder('root', null, null, 'root');
 const ch = new Folder('src', root);
 root.children = {
   'index.js': new File('index.js', root, `${'hello!\nearly\ncanal\nrodeo\nlate latte'}`),
+  'hidden.js': new File('hidden.js', root, `${'He-he, i am a hidden message'}`),
   src: ch,
   fold: new Folder(
     'fold',
@@ -26,27 +27,27 @@ console.log(root);
 const map = new Map();
 
 class Search {
-  //   search(root, pattern) {
+  //   search(root, pattern, filesToExclude) {
   //       let values = Object.values(root.children);
   //       searchUtil(values, pattern);
   //   }
 
   // works with mock data
-  search(_, pattern) {
+  search(_, pattern, filesToExclude) {
     const values = Object.values(root.children);
-    searchUtil(values, pattern);
+    searchUtil(values, pattern, filesToExclude);
   }
 }
 
-// global variable path to trace the road
+// global variable "path" to trace the road
 let path = '';
 
 // recursive function that traverses the file system tree
 // returns when neither file nor folder is met
-function searchUtil(values, pattern) {
+function searchUtil(values, pattern, filesToExclude) {
   // iteratively traverse all the children of the current folder
   values.forEach((v) => {
-    if (v && v.type === 'file') {
+    if (v && v.type === 'file' && !filesToExclude.get(v.name)) {
       const results = KMP(v.content, pattern);
 
       path += `/${v.parent.name}`;
@@ -54,10 +55,8 @@ function searchUtil(values, pattern) {
       if (results.length !== 0) {
         path += `/${v.name}`;
         results.forEach((i) => controller.updateResults(`${path} ${i}`));
-
         path = '';
       } else {
-        controller.updateResults(`No result found in ${path} :(`);
         path = '';
       }
     } else if (v && v.type === 'folder') {
@@ -115,7 +114,7 @@ function KMP(content, pattern) {
 
     if (j === m) {
       // results.push(i - j);
-      results.push(`at line ${line} column ${column}`);
+      results.push(`at line ${line} column ${column - pattern.length}`);
       j = prefixSuffix[j - 1];
     } else if (i < n && pattern.charAt(j) !== content.charAt(i)) {
       /*
