@@ -28,7 +28,8 @@ module.exports = {
         "no-restricted-syntax":"off",
         "no-shadow":"off",
         "array-callback-return":"off",
-        "no-mixed-operators":"off"
+        "no-mixed-operators":"off",
+        "no-continue":"off"
     },
     parser: "babel-eslint",
     

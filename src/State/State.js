@@ -17,10 +17,10 @@ class State {
     this.activeTab = null;
     this.tabs = [];
 
-    this.test = document.getElementById('testState');
-    this.test.onclick = () => {
-      console.log(this.root, 'root')
-    }
+    // this.test = document.getElementById('testState');
+    // this.test.onclick = () => {
+    //   console.log(this.root, 'root')
+    // }
 
     // this.myRename(ch, 'asdf')
   }
@@ -57,7 +57,7 @@ class State {
   }
 
   myRename(active, newName) {
-    if(active.parent.children[newName]) return false;
+    if (active.parent.children[newName]) return false;
 
     if (active.name !== newName) {
       Object.defineProperty(active.parent.children, newName, Object.getOwnPropertyDescriptor(active.parent.children, active.name));
@@ -67,7 +67,7 @@ class State {
 
     this.updateUI();
     this.updateTabsInState(active, 'rename');
-    return true
+    return true;
   }
 
   updateUI() {
@@ -75,9 +75,9 @@ class State {
     // ... other function that will update ui anywhere
   }
 
-    bindRenderExplorer(cb) {
-      this.renderExplorer = cb;
-    }
+  bindRenderExplorer(cb) {
+    this.renderExplorer = cb;
+  }
 
     updateTabsInState = (file, operation) => {
       if (operation === 'select') {
@@ -114,11 +114,13 @@ class State {
       }
       this.updateTabsInModel(this.activeTab, operation, this.tabs);
     };
+
     saveTabContent = (file, content) => {
       if (file) {
         file.content = content;
       }
     };
+
     bindUpdateTabsInModel = (cb) => {
       this.updateTabsInModel = cb;
     }
