@@ -30,7 +30,7 @@ class Auth {
 
     this.signinBtn.onclick = this.clickHandler;
     this.signupBtn.onclick = this.clickHandler;
-    this.save.onClickSave = this.onSave;
+    this.save.onclick = this.onSave;
     this.closeBtn.onclick = this.onClose;
   }
   clickHandler = ({ target: { id } }) => {
@@ -49,6 +49,7 @@ class Auth {
 
   onSave = () => {
     const newRoot = JSON.stringify(newRootForJSON(state.root));
+    console.log(newRoot);
     firebase.database().ref(`data/${state.userID}`).set({
       root: newRoot,
     });
@@ -84,8 +85,7 @@ class Auth {
         this.password.value = '';
         this.authModal.style.display = 'none';
         this.errorMessage.textContent = '';
-        console.log(val);
-        state.root = parseDataFromSv(val);
+        state.root = val ? parseDataFromSv(val) : state.root;
         console.log(state.root);
         this.save.disabled = false;
         console.log(this.save);
