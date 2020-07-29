@@ -380,7 +380,7 @@ body.resizing {
 
 /*End:: Explorer resizing*/
 
-/*search start*/
+/*Start:: search*/
 
 .searchPanel {
   background-color: rgba(30, 30, 30, 96%);
@@ -396,6 +396,11 @@ body.resizing {
   font-weight: bolder;
 }
 
+#topPanel > * {
+  display: block;
+  color : grey;
+}
+
 #closeButton {
   height: 25px;
   width: 25px;
@@ -403,7 +408,7 @@ body.resizing {
   font-size: large;
 }
 
-/*search end*/
+/*End :: search*/
 
 /* Terminal */
 button{
