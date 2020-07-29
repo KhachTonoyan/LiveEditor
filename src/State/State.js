@@ -3,18 +3,18 @@ import Folder from '../Entities/Folder.js';
 import { getActiveParent } from '../Explorer/helper.js';
 
 // some mock data
-const root = new Folder('root', null, null, 'root');
-const ch = new Folder('src', root);
-root.children = {
-  'index.html': new File('index.html', root, null), 'style.css': new File('style.css', root, null), 'index.js': new File('index.js', root, "alert('hello world')"), src: ch,
-};
-ch.children = { data: new Folder('data', {}) };
-root.children.src.children.data.parent = root.children.src;
+// const root = new Folder('root', null, null, 'root');
+// const ch = new Folder('src', root);
+// root.children = {
+//   'index.html': new File('index.html', root, null), 'style.css': new File('style.css', root, null), 'index.js': new File('index.js', root, "alert('hello world')"), src: ch,
+// };
+// ch.children = { data: new Folder('data', {}) };
+// root.children.src.children.data.parent = root.children.src;
 
 class State {
   constructor() {
-    // this.root = new Folder('root', null, null, 'root');
-    this.root = root;
+    this.root = new Folder('root', null, null, 'root');
+    // this.root = root;
   }
 
     create = (name, type, active) => {
@@ -67,8 +67,13 @@ class State {
     }
 
     updateUI() {
+      this.updateTerminal();
       this.renderExplorer();
       // ... other function that will update ui anywhere
+    }
+
+    bindUpdateTerminal(cb) {
+      this.updateTerminal = cb;
     }
 
     bindRenderExplorer(cb) {

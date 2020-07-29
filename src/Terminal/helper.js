@@ -50,7 +50,10 @@ function terminalCommandsHandler(value) {
         break;
       case 'create':
         {
-          if ((second === 'file' || second === 'folder') && third === undefined) {
+          if (
+            (second === 'file' || second === 'folder')
+            && third === undefined
+          ) {
             this.putPath(`Please writh ${second} name`, false);
           } else if (second === 'file' || second === 'folder') {
             this.putPath(this.create(second, third), false);
@@ -70,7 +73,10 @@ function terminalCommandsHandler(value) {
       case 'rename':
         {
           if (second === undefined || third === undefined) {
-            this.putPath('You must writh "rename [old name] [new name]"', false);
+            this.putPath(
+              'You must writh "rename [old name] [new name]"',
+              false,
+            );
           } else if (this.rename(second, third)) {
             this.putPath(`You rename ${second} to ${third}`, false);
           } else {
@@ -79,8 +85,7 @@ function terminalCommandsHandler(value) {
           this.putPath(`${this.getPath()}>`);
         }
         break;
-      default:
-      {
+      default: {
         this.putPath("it's not a correct command, writh help", false);
         this.putPath(`${this.getPath()}>`);
       }
