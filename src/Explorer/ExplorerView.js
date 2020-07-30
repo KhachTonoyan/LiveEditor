@@ -1,5 +1,5 @@
 import {
-  createElement, getElement, sortExplorer, checkExtension,
+  createElement, getElement, sortExplorer, checkExtension, getDirectChild,
 } from '../helper.js';
 
 class ExplorerView {
@@ -80,6 +80,7 @@ class ExplorerView {
   };
 
   clickRemove = () => {
+    if (this.selectedElement.dataset.name === 'Project') return;
     let selected;
     if (this.selectedElement.id === 'root') {
       selected = this.selectedElement;
@@ -91,7 +92,7 @@ class ExplorerView {
 
     let el = this.root;
     for (const p of path) {
-      el = el.lastChild.querySelector(`[data-name='${p}']`);
+      el = getDirectChild(el, p);
     }
 
     this.highlight(el);
@@ -154,9 +155,9 @@ class ExplorerView {
 
         let el = this.root;
         for (const p of path) {
-          el = el.lastChild.querySelector(`[data-name='${p}']`);
+          el = getDirectChild(el, p);
         }
-        el = el.lastChild.querySelector(`[data-name='${target.value}']`);
+        el = getDirectChild(el, target.value);
 
         this.highlight(el);
 
@@ -181,20 +182,84 @@ class ExplorerView {
   };
 
   clickRename = () => {
-    console.log(this.selectedElement);
+    if (this.selectedElement.dataset.name === 'Project') return;
+    this.selectedElement.classList.add('input');
     const input = createElement('input', null, 'rename-input');
+    input.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
     this.overlay.style.display = 'block';
     input.value = this.selectedElement.dataset.name;
     this.selectedElement.querySelector('span').remove();
-    this.selectedElement.append(input);
+    this.selectedElement.prepend(input);
+    input.focus();
+    const index = input.value.indexOf('.');
+    input.setSelectionRange(0, index);
+    let fn;
+
+    input.addEventListener('blur', fn = () => {
+      const res = this.submitRename(input.value);
+      const inputValue = input.value;
+      if (res === 'nameEmpty') {
+        const span = createElement('span', null, 'warning');
+        span.textContent = 'A name must be provided!';
+        input.parentElement.append(span);
+        input.classList.add('danger');
+        input.addEventListener('blur', () => {
+          if (!input.value) {
+            this.submitRename(this.selectedElement.dataset.name);
+          }
+        });
+      } else if (res === 'nameExists') {
+        const span = createElement('span', null, 'warning');
+        span.textContent = `A file or folder '${input.value}' already exists at this location. Please choose a different name.`;
+        input.parentElement.append(span);
+        input.classList.add('danger');
+        input.addEventListener('blur', () => {
+          if (input.value === inputValue) {
+            this.submitRename(this.selectedElement.dataset.name);
+          }
+        });
+      }
+    });
+    input.addEventListener('keyup', (e) => {
+      if (e.keyCode === 13) {
+        const res = this.submitRename(input.value);
+        const inputValue = input.value;
+        if (res === 'nameEmpty') {
+          const span = createElement('span', null, 'warning');
+          span.textContent = 'A name must be provided!';
+          input.parentElement.append(span);
+          input.classList.add('danger');
+          input.addEventListener('blur', () => {
+            if (!input.value) {
+              this.submitRename(this.selectedElement.dataset.name);
+            }
+          });
+        } else if (res === 'nameExists') {
+          const span = createElement('span', null, 'warning');
+          span.textContent = `A file or folder '${input.value}' already exists at this location. Please choose a different name.`;
+          input.parentElement.append(span);
+          input.classList.add('danger');
+          input.addEventListener('blur', () => {
+            if (input.value === inputValue) {
+              this.submitRename(this.selectedElement.dataset.name);
+            }
+          });
+        }
+      } else if (e.keyCode === 27) {
+        input.removeEventListener('blur', fn);
+        this.submitRename(this.selectedElement.dataset.name);
+      }
+    });
   };
 
-  submitRename = () => {
-    const newName = 'something'; // petq a argumnetic ga
-
+  submitRename = (newName) => {
     if (this.selectedElement.parentElement.parentElement.id === 'root') {
-      console.log('Not allowed to change root folder\'s name!');
-      return;
+      return true;
+    }
+    if (!newName.trim()) {
+      return 'nameEmpty';
     }
     const siblings = this.selectedElement.parentElement.children;
     let isExistItemWithThatName = false;
@@ -204,25 +269,19 @@ class ExplorerView {
         isExistItemWithThatName = true;
       }
     }
-    console.log('isExist', isExistItemWithThatName);
-    if (isExistItemWithThatName) return;
+    if (isExistItemWithThatName) return 'nameExists';
 
-    // console.log(this.selectedElement.parentElement.parentElement); return ;
-    // qani vor im ui@ u state arandzin en update linum es petq a arandzin update anem iranc
-    // nax update anenq state@
+    this.rename(newName);
     const path = this.selectedElementPath.slice(0, this.selectedElementPath.length - 1);
     path.push(newName);
-    console.log(path);
-    this.rename(newName);
-    // esi vercnum a path@ minchev naxord element@
 
-    // hima highligh anenq active element@ u  active@ berenq ira vra
     let el = this.root;
     for (const item of path) {
-      el = el.querySelector(`[data-name='${item}']`);
+      el = getDirectChild(el, item);
     }
     this.selectedElement = el;
     this.highlight(el);
+    this.overlay.style.display = 'none';
   };
 
   renderExplorer(rootObj, list) {
@@ -240,7 +299,6 @@ class ExplorerView {
             listFileItem.setAttribute('data-name', key);
             listFileItem.classList.add('file', `${checkExtension(key)}`);
             listFileItem.addEventListener('click', self.setSelectedElement);
-            // listFileItem.addEventListener('click', self.getPath);
             const span = createElement('span');
             span.innerHTML = key;
             listFileItem.append(span);
@@ -248,7 +306,6 @@ class ExplorerView {
           } else {
             const listFolderItem = document.createElement('li');
             listFolderItem.addEventListener('click', self.setSelectedElement);
-            // listFolderItem.addEventListener('click', self.getPath);
             listFolderItem.setAttribute('data-name', key);
             if (rootObj.children[key].expanded) {
               listFolderItem.classList.add('expand');

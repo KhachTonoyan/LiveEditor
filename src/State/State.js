@@ -21,8 +21,6 @@ class State {
     // this.test.onclick = () => {
     //   console.log(this.root, 'root')
     // }
-
-    // this.myRename(ch, 'asdf')
   }
 
   create = (name, type, active) => {
@@ -57,14 +55,11 @@ class State {
   }
 
   myRename(active, newName) {
-    if (active.parent.children[newName]) return false;
-
     if (active.name !== newName) {
       Object.defineProperty(active.parent.children, newName, Object.getOwnPropertyDescriptor(active.parent.children, active.name));
       delete active.parent.children[active.name];
+      active.parent.children[newName].name = newName;
     }
-    active.parent.children[newName].name = newName;
-
     this.updateUI();
     this.updateTabsInState(active, 'rename');
     return true;
@@ -79,51 +74,51 @@ class State {
     this.renderExplorer = cb;
   }
 
-    updateTabsInState = (file, operation) => {
-      if (operation === 'select') {
-        this.activeTab = file;
-        if (!this.tabs.includes(file)) {
-          this.tabs.push(file);
-        }
-      } else if (operation === 'closeTab') {
-        this.tabs = this.tabs.filter((tab) => tab !== file);
-        this.activeTab = this.tabs[this.tabs.length - 1];
-      } else if (operation === 'createFile') {
+  updateTabsInState = (file, operation) => {
+    if (operation === 'select') {
+      this.activeTab = file;
+      if (!this.tabs.includes(file)) {
         this.tabs.push(file);
-        this.activeTab = file;
-      } else if (operation === 'removeFile') {
-        this.tabs = this.tabs.filter((tab) => tab !== file);
-        this.activeTab = this.tabs[this.tabs.length - 1];
-      } else if (operation === 'removeFolder') {
-        // here file is our deleting folder
-        const closingTabs = [];
-        this.tabs.forEach((tab) => {
-          let item = tab;
-          while (item.parent.id !== 'root') {
-            if (item.parent === file) {
-              closingTabs.push(tab);
-              break;
-            }
-            item = item.parent;
+      }
+    } else if (operation === 'closeTab') {
+      this.tabs = this.tabs.filter((tab) => tab !== file);
+      this.activeTab = this.tabs[this.tabs.length - 1];
+    } else if (operation === 'createFile') {
+      this.tabs.push(file);
+      this.activeTab = file;
+    } else if (operation === 'removeFile') {
+      this.tabs = this.tabs.filter((tab) => tab !== file);
+      this.activeTab = this.tabs[this.tabs.length - 1];
+    } else if (operation === 'removeFolder') {
+      // here file is our deleting folder
+      const closingTabs = [];
+      this.tabs.forEach((tab) => {
+        let item = tab;
+        while (item.parent.id !== 'root') {
+          if (item.parent === file) {
+            closingTabs.push(tab);
+            break;
           }
-        });
-        this.tabs = this.tabs.filter((tab) => closingTabs.indexOf(tab) === -1);
-        this.activeTab = this.tabs[this.tabs.length - 1];
-      } else if (operation === 'rename') {
-        // console.log('rename')
-      }
-      this.updateTabsInModel(this.activeTab, operation, this.tabs);
-    };
-
-    saveTabContent = (file, content) => {
-      if (file) {
-        file.content = content;
-      }
-    };
-
-    bindUpdateTabsInModel = (cb) => {
-      this.updateTabsInModel = cb;
+          item = item.parent;
+        }
+      });
+      this.tabs = this.tabs.filter((tab) => closingTabs.indexOf(tab) === -1);
+      this.activeTab = this.tabs[this.tabs.length - 1];
+    } else if (operation === 'rename') {
+      // console.log('rename')
     }
+    this.updateTabsInModel(this.activeTab, operation, this.tabs);
+  };
+
+  saveTabContent = (file, content) => {
+    if (file) {
+      file.content = content;
+    }
+  };
+
+  bindUpdateTabsInModel = (cb) => {
+    this.updateTabsInModel = cb;
+  }
 }
 
 export default new State();

@@ -224,9 +224,16 @@ li.file.html:before {
 }
 
 .rename-input {
+  width: calc(100% - 20px);
   position: relative;
-  z-index: 20;
+  z-index: 15;
+  outline: none;
 }
+
+.rename-input.danger {
+  border-color: red;
+}
+
 /*End:: Explorer*/
 
 /*Start:: Explorer resizing*/
