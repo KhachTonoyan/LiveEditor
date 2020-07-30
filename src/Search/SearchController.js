@@ -16,10 +16,13 @@ class Controller {
     });
 
     document.getElementById('app').addEventListener('input', (event) => {
-      if (event.target.id === 'searchInput' || event.target.id === 'fteInput') {
+      if (event.target.id === 'searchInput'
+      || event.target.id === 'fteInput'
+      || event.target.id === 'ftiInput') {
         find.call(this,
           document.getElementById('searchInput').value,
-          document.getElementById('fteInput').value);
+          document.getElementById('fteInput').value,
+          document.getElementById('ftiInput').value);
       }
     });
   }
@@ -29,16 +32,21 @@ class Controller {
   }
 }
 
-function find(input, fteInput) {
+function find(input, fteInput, ftiInput) {
   const pattern = input;
 
   const filesToExclude = new Map();
   fteInput.trim().split(',').forEach((value) => {
-    filesToExclude.set(value, true);
+    if (value) filesToExclude.set(value, true);
+  });
+
+  const filesToInclude = new Map();
+  ftiInput.trim().split(',').forEach((value) => {
+    if (value) filesToInclude.set(value, true);
   });
 
   this.view.clearResultList();
-  if (pattern) this.model.search(State.root, pattern, filesToExclude);
+  if (pattern) this.model.search(State.root, pattern, filesToExclude, filesToInclude);
 }
 
 export default new Controller(new SearchView(), new SearchModel());

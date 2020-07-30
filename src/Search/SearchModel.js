@@ -6,7 +6,7 @@ import Folder from '../Entities/Folder.js';
 const root = new Folder('root', null, null, 'root');
 const ch = new Folder('src', root);
 root.children = {
-  'index.js': new File('index.js', root, `${'hello!\nearly\ncanal\nrodeo\nlate latte'}`),
+  'index.js': new File('index.js', root, `${'hello!\nearly\ncanal\nrodeo\nlate latte'.repeat(10000)}`),
   'hidden.js': new File('hidden.js', root, `${'He-he, i am a hidden message'}`),
   src: ch,
   fold: new Folder(
@@ -27,15 +27,17 @@ root.children.src.children.data.parent = root.children.src;
 const map = new Map();
 
 class Search {
-  //   search(root, pattern, filesToExclude) {
+  //   search(root, pattern, filesToExclude, filesToInclude) {
   //       let values = Object.values(root.children);
   //       searchUtil(values, pattern);
   //   }
 
   // works with mock data
-  search(_, pattern, filesToExclude) {
+  search(_, pattern, filesToExclude, filesToInclude) {
     const values = Object.values(root.children);
-    searchUtil(values, pattern, filesToExclude);
+    console.log(filesToInclude);
+    console.log(filesToInclude.size);
+    searchUtil(values, pattern, filesToExclude, filesToInclude);
   }
 }
 
@@ -44,10 +46,12 @@ let path = '';
 
 // recursive function that traverses the file system tree
 // returns when neither file nor folder is met
-function searchUtil(values, pattern, filesToExclude) {
+function searchUtil(values, pattern, filesToExclude, filesToInclude) {
   // iteratively traverse all the children of the current folder
   values.forEach((v) => {
-    if (v && v.type === 'file' && !filesToExclude.get(v.name)) {
+    if (v && v.type === 'file'
+    && !filesToExclude.get(v.name)
+    && (filesToInclude.size === 0 || (filesToInclude.get(v.name)))) {
       const results = KMP(v.content, pattern);
 
       path += `/${v.parent.name}`;
