@@ -6,7 +6,9 @@ import Folder from '../Entities/Folder.js';
 const root = new Folder('root', null, null, 'root');
 const ch = new Folder('src', root);
 root.children = {
-  'index.js': new File('index.js', root, `${'hello!\nearly\ncanal\nrodeo\nlate latte'.repeat(10000)}`),
+  'index.js': new File('index.js', root, `${'hello!\nearly\ncanal\nrodeo\nlate latte'.repeat(1000)}`),
+  'aloha.js': new File('aloha.js', root, `${'aloha'.repeat(1000)}`),
+  'a.js': new File('a.js', root, `${'a'.repeat(200)}`),
   'hidden.js': new File('hidden.js', root, `${'He-he, i am a hidden message'}`),
   src: ch,
   fold: new Folder(
@@ -35,8 +37,6 @@ class Search {
   // works with mock data
   search(_, pattern, filesToExclude, filesToInclude) {
     const values = Object.values(root.children);
-    console.log(filesToInclude);
-    console.log(filesToInclude.size);
     searchUtil(values, pattern, filesToExclude, filesToInclude);
   }
 }
