@@ -16,6 +16,16 @@ class SearchView {
     this.input.style.marginBottom = '1px';
     topPanel.appendChild(this.input);
 
+    const fieldNameFilesToInclude = document.createElement('p');
+    fieldNameFilesToInclude.textContent = 'Files to include (comma-separated):';
+    fieldNameFilesToInclude.style.marginBottom = '1px';
+    topPanel.appendChild(fieldNameFilesToInclude);
+
+    this.filesInclude = document.createElement('input');
+    this.filesInclude.id = 'ftiInput';
+    this.filesInclude.style.marginBottom = '1px';
+    topPanel.appendChild(this.filesInclude);
+
     const fieldNameFilesToExclude = document.createElement('p');
     fieldNameFilesToExclude.textContent = 'Files to exlude (comma-separated):';
     fieldNameFilesToExclude.style.marginBottom = '1px';
@@ -25,11 +35,6 @@ class SearchView {
     this.filesExclude.id = 'fteInput';
     this.filesExclude.style.marginBottom = '1px';
     topPanel.appendChild(this.filesExclude);
-
-    // const goButton = document.createElement('button');
-    // goButton.id = 'go';
-    // goButton.textContent = 'GO!';
-    // topPanel.appendChild(goButton);
 
     const closeButton = document.createElement('button');
     closeButton.id = 'closeButton';
