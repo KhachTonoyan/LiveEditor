@@ -15,7 +15,7 @@ root.children = {
     'fold',
     root,
     {
-      // 'i.js': new File('i.js', { name: 'fold' }, `${'asdnee \n'.repeat(100)}`),
+      'i.js': new File('i.js', { name: 'fold' }, `${'asdnee \n'.repeat(100)}`),
     },
     'id',
   ),
@@ -29,10 +29,11 @@ root.children.src.children.data.parent = root.children.src;
 const map = new Map();
 
 class Search {
-  //   search(root, pattern, filesToExclude, filesToInclude) {
-  //       let values = Object.values(root.children);
-  //       searchUtil(values, pattern);
-  //   }
+  // search(root, pattern, filesToExclude, filesToInclude) {
+  //   const values = Object.values(root.children);
+  //   console.log(values);
+  //   searchUtil(values, pattern, filesToExclude, filesToInclude);
+  // }
 
   // works with mock data
   search(_, pattern, filesToExclude, filesToInclude) {
@@ -65,7 +66,7 @@ function searchUtil(values, pattern, filesToExclude, filesToInclude) {
       }
     } else if (v && v.type === 'folder') {
       // recursive step
-      searchUtil(Object.values(v.children), pattern); // recurrence relation: O(n)
+      searchUtil(Object.values(v.children), pattern, filesToExclude, filesToInclude); // recurrence relation: O(n)
     }
   });
 }
