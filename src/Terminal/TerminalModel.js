@@ -44,7 +44,7 @@ class TerminalModel {
       this.path.children[title]
       && this.path.children[title].type === 'file'
     ) {
-      console.log(this.path.children[title].content);
+      state.updateTabsInState(this.path.children[title], 'createFile');
     } else return `Don't found file ${title}`;
   };
 
@@ -71,7 +71,7 @@ class TerminalModel {
   };
 
   rename = (oldName, newName) => {
-    if (this.path.children[oldName]) {
+    if (this.path.children[oldName] && !this.path.children[newName]) {
       return state.rename(this.path.children[oldName], newName);
     }
     return false;
