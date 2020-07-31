@@ -47,6 +47,17 @@ function checkExtension(file) {
   return 'file';
 }
 
+function getDirectChild(el, dataName) {
+  const ul = el.lastElementChild;
+  let childElem;
+  for (const li of ul.children) {
+    if (li.dataset.name === dataName) {
+      childElem = li;
+    }
+  }
+  return childElem;
+}
+
 export {
-  createElement, getElement, isFile, getActiveParent, sortExplorer, checkExtension,
+  createElement, getElement, isFile, getActiveParent, sortExplorer, checkExtension, getDirectChild,
 };

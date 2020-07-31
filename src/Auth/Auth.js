@@ -90,6 +90,7 @@ class Auth {
         this.save.disabled = false;
         console.log(this.save);
         state.updateUI();
+        state.onAuth();
       })
       .catch((err) => {
         console.log(err);
