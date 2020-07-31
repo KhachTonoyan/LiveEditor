@@ -1,26 +1,16 @@
 import File from '../Entities/File.js';
 import Folder from '../Entities/Folder.js';
 import { getActiveParent } from '../helper.js';
-// some mock data
-// const root = new Folder('Project', null, null, 'root');
-// const ch = new Folder('src', root);
-// root.children = {
-//   'index.html': new File('index.html', root, null),
-//   'style.css': new File('style.css', root, null),
-//   'index.js': new File('index.js', root, "alert('hello world')"),
-//   src: ch,
-// };
-// ch.children = { data: new Folder('data', root.children.src) };
+
 class State {
   constructor() {
-    this.root = new Folder('root', null, null, 'root');
-    // this.root = root;
+    this.root = new Folder('Project', null, null, 'root');
     this.activeTab = null;
     this.tabs = [];
     // this.test = document.getElementById('testState');
     // this.test.onclick = () => {
     //   console.log(this.root, 'root')
-    // }
+    // };
   }
   create = (name, type, active) => {
     const activeFolder = getActiveParent(active); // folder is returned
@@ -48,7 +38,6 @@ class State {
     return true;
   }
   myRename(active, newName) {
-    if (active.parent.children[newName]) return false;
     if (active.name !== newName) {
       Object.defineProperty(
         active.parent.children,
@@ -59,16 +48,26 @@ class State {
         ),
       );
       delete active.parent.children[active.name];
+      active.parent.children[newName].name = newName;
     }
-    active.parent.children[newName].name = newName;
     this.updateUI();
     this.updateTabsInState(active, 'rename');
     return true;
   }
+  onAuth = () => {
+    this.tabs = [];
+    this.activeTab = null;
+    this.updateTabsInState(null);
+    this.updateExplorerModel(this.root);
+    this.explorerViewActive();
+    this.renderExplorer();
+  };
   updateUI() {
     this.updateTerminal();
     this.renderExplorer();
-    // ... other function that will update ui anywhere
+  }
+  bindUpdateExplorerModel(cb) {
+    this.updateExplorerModel = cb;
   }
   bindUpdateTerminal(cb) {
     this.updateTerminal = cb;
@@ -108,8 +107,6 @@ class State {
         (tab) => closingTabs.indexOf(tab) === -1,
       );
       this.activeTab = this.tabs[this.tabs.length - 1];
-    } else if (operation === 'rename') {
-      // console.log('rename')
     }
     this.updateTabsInModel(this.activeTab, operation, this.tabs);
   };
@@ -121,5 +118,9 @@ class State {
   bindUpdateTabsInModel = (cb) => {
     this.updateTabsInModel = cb;
   };
+
+  bindExplorerViewActive = (cb) => {
+    this.explorerViewActive = cb;
+  }
 }
 export default new State();

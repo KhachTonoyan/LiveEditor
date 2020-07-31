@@ -4,8 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "lint": "eslint ./src ./public",
-    "lint:fix": "eslint ./src ./public --fix",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
     "start": "node ./public/server.js",
     "start:dev": "webpack-dev-server"
   },

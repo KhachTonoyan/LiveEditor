@@ -17,6 +17,8 @@
   border: none;
   outline: none;
   white-space: nowrap;
+  background: #081a20;
+  color: white;
 }
 
 #editor {
@@ -224,9 +226,16 @@ li.file.html:before {
 }
 
 .rename-input {
+  width: calc(100% - 20px);
   position: relative;
-  z-index: 20;
+  z-index: 15;
+  outline: none;
 }
+
+.rename-input.danger {
+  border-color: red;
+}
+
 /*End:: Explorer*/
 
 /* auth */

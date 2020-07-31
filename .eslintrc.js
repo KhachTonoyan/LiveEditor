@@ -36,6 +36,7 @@ module.exports = {
     'lines-between-class-members': 'off',
     'linebreak-style': 'off',
     "no-continue":"off",
+    "import/no-extraneous-dependencies":"off",
     "max-classes-per-file" : 'off'
   },
   parser: 'babel-eslint',
