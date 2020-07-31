@@ -3,4 +3,4 @@ node_modules
 /.git
 /.eslintrc.js
 webpack.config.js
-public
+./public

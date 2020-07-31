@@ -41,11 +41,11 @@ class TerminalModel {
 
   openFile = (title) => {
     if (
-      this.path.children[title]
-      && this.path.children[title].type === 'file'
+      !this.path.children[title]
+      || !this.path.children[title].type === 'file'
     ) {
-      state.updateTabsInState(this.path.children[title], 'createFile');
-    } else return `Don't found file ${title}`;
+      return `Can't open file ${title}`;
+    } state.updateTabsInState(this.path.children[title], 'select');
   };
 
   runFile = (title) => {

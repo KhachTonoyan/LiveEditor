@@ -62,10 +62,10 @@ class State {
     this.explorerViewActive();
     this.renderExplorer();
   };
-  updateUI = () => {
+  updateUI() {
     this.updateTerminal();
     this.renderExplorer();
-  };
+  }
   bindUpdateExplorerModel(cb) {
     this.updateExplorerModel = cb;
   }
