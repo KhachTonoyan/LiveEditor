@@ -7,9 +7,11 @@ class TabsView {
     this.textarea = getElement('content');
     this.oldActive = null;
     this.textarea.value = null;
+    this.textarea.onchange = () => {
+      this.saveTabContent(this.oldActive, this.textarea.value);
+    };
 
     this.tabsContainer = createElement('ul', null, 'tabs-container');
-
     this.tabs.append(this.tabsContainer);
   }
 

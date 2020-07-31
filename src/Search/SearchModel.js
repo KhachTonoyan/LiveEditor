@@ -6,13 +6,16 @@ import Folder from '../Entities/Folder.js';
 const root = new Folder('root', null, null, 'root');
 const ch = new Folder('src', root);
 root.children = {
-  'index.js': new File('index.js', root, `${'abcneedle'.repeat(100)}`),
+  'index.js': new File('index.js', root, `${'hello!\nearly\ncanal\nrodeo\nlate latte'.repeat(1000)}`),
+  'aloha.js': new File('aloha.js', root, `${'aloha'.repeat(1000)}`),
+  'a.js': new File('a.js', root, `${'a'.repeat(200)}`),
+  'hidden.js': new File('hidden.js', root, `${'He-he, i am a hidden message'}`),
   src: ch,
   fold: new Folder(
     'fold',
     root,
     {
-      'i.js': new File('i.js', { name: 'fold' }, `${'asdnee'.repeat(100)}`),
+      // 'i.js': new File('i.js', { name: 'fold' }, `${'asdnee \n'.repeat(100)}`),
     },
     'id',
   ),
@@ -20,43 +23,46 @@ root.children = {
 ch.children = { data: new Folder('data', {}) };
 root.children.src.children.data.parent = root.children.src;
 
-console.log(root);
+// console.log(root);
 
 // memoization container
 const map = new Map();
 
 class Search {
-  //   search(root, pattern) {
+  //   search(root, pattern, filesToExclude, filesToInclude) {
   //       let values = Object.values(root.children);
   //       searchUtil(values, pattern);
   //   }
 
   // works with mock data
-  search(_, pattern) {
+  search(_, pattern, filesToExclude, filesToInclude) {
     const values = Object.values(root.children);
-    searchUtil(values, pattern);
+    searchUtil(values, pattern, filesToExclude, filesToInclude);
   }
 }
 
-// global variable path to trace the road
+// global variable "path" to trace the road
 let path = '';
 
 // recursive function that traverses the file system tree
 // returns when neither file nor folder is met
-function searchUtil(values, pattern) {
+function searchUtil(values, pattern, filesToExclude, filesToInclude) {
   // iteratively traverse all the children of the current folder
   values.forEach((v) => {
-    if (v && v.type === 'file') {
+    if (v && v.type === 'file'
+    && !filesToExclude.get(v.name)
+    && (filesToInclude.size === 0 || (filesToInclude.get(v.name)))) {
       const results = KMP(v.content, pattern);
 
       path += `/${v.parent.name}`;
 
       if (results.length !== 0) {
         path += `/${v.name}`;
-        results.forEach((i) => controller.updateResults(`${path} at index ${i}`));
-
+        results.forEach((i) => controller.updateResults(`${path} ${i}`));
         path = '';
-      } else controller.updateResults(`No result found in ${path} :(`);
+      } else {
+        path = '';
+      }
     } else if (v && v.type === 'folder') {
       // recursive step
       searchUtil(Object.values(v.children), pattern); // recurrence relation: O(n)
@@ -96,14 +102,23 @@ function KMP(content, pattern) {
   let j = 0;
   let i = 0;
 
+  let line = 1;
+  let column = 0;
+
   while (i < n) {
+    if (/\n/.exec(content.charAt(i))) {
+      line += 1;
+      column = -1;
+    }
     if (content.charAt(i) === pattern.charAt(j)) {
       i++;
+      column++;
       j++;
     }
 
     if (j === m) {
-      results.push(i - j);
+      // results.push(i - j);
+      results.push(`at line ${line} column ${column - pattern.length}`);
       j = prefixSuffix[j - 1];
     } else if (i < n && pattern.charAt(j) !== content.charAt(i)) {
       /*
@@ -111,7 +126,10 @@ function KMP(content, pattern) {
           prefix end.
         */
       if (j !== 0) j = prefixSuffix[j - 1];
-      else i += 1;
+      else {
+        i += 1;
+        column++;
+      }
     }
   }
   return results;

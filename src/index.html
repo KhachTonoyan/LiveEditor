@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Live Editor</title>
-    <link href="./normalize.css" rel="stylesheet"/>
-    <link href="assets/styles/all.min.css" rel="stylesheet">
-    <link href="./style.css" rel="stylesheet"/>
+     <!-- update the version number as needed -->
+     <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+     <!-- include only the Firebase features as you need -->
+     <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+     <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
+     <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-messaging.js"></script>
+     <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-storage.js"></script>
 </head>
 <body>
     <div id="app">
@@ -33,6 +37,18 @@
             <div id="editor">
                 <textarea id="content"></textarea>
             </div>
+            <div id="authModal">
+                <button id="closeModal"><i class="fas fa-times"></i></button>
+                <p id="errorMessage"></p>
+                <form id="authForm">
+                    <input id="email" type="email" placeholder="Email"/>
+                    <input id="password" type="password" placeholder="Password" />
+                    <button type="submit"><i class="fas fa-sign-in-alt"></i></button>
+                </form>
+            </div>
+            <button id="save" disabled><i class="far fa-save"></i></button>
+            <button id="signin">Sign in</button>
+            <button id="signup">Sign up</button>
             <button id="terminalBtn"><i class="fas fa-terminal"></i></button>
             <div id="terminal">
                 <p class="termNav"><button id="closeTerminal"><i class="fas fa-times"></i></button></p>
@@ -40,6 +56,6 @@
             </div>
         </div>
     </div>
-    <script src="script.js" type="module"></script>
+    <script src = "script.js"></script>
 </body>
 </html>

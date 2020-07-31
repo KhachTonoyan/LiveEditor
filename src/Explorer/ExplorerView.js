@@ -64,7 +64,7 @@ class ExplorerView {
 
     // this.test = getElement('test');
     // this.test.onclick =() => {
-    //   console.log(this.selectedElement)
+    //   console.log(this.root, this.selectedElement)
     // }
   }
 
@@ -368,6 +368,10 @@ class ExplorerView {
     target.classList.toggle('expand');
 
     this.toggleExpanded(this.selectedElementPath);
+  };
+
+  makeRootActive = () => {
+    this.selectedElement = this.rootContainerTitle;
   };
 
   bindOnCreate = (cb) => {
