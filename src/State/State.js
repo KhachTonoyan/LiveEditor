@@ -23,6 +23,10 @@ class State {
     this.updateUI();
     return true;
   };
+  reset = () => {
+    this.root = new Folder('Project', null, null, 'root');
+    this.onAuth();
+  }
   remove = (active) => {
     if (!active.parent || !active.parent.children[active.name]) return false;
     delete active.parent.children[active.name];

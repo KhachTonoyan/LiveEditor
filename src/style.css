@@ -286,7 +286,17 @@ li.file.html:before {
   color: #fff;
   border-radius: 20%;
   bottom: 5px;
-  right: 104px;
+  left: 8px;
+}
+#signout{
+  position: absolute;
+  padding: 5px;
+  background-color:black;
+  color: #fff;
+  border-radius: 20%;
+  bottom: 5px;
+  left: 8px;
+  display: none;
 }
 
 #signup{
@@ -296,7 +306,14 @@ li.file.html:before {
   color: #fff;
   border-radius: 20%;
   bottom: 5px;
-  right: 40px;
+  left: 67px;
+}
+#emailP{
+  position: absolute;
+  padding: 5px;
+  color: #fff;
+  bottom: 6px;
+  left: 68px;
 }
 
 #save{
@@ -306,7 +323,7 @@ li.file.html:before {
   color: #fff;
   border-radius: 20%;
   bottom: 5px;
-  right: 164px;
+  right: 40px;
 }
 #save:disabled{
   background-color:#5F5F5F;
@@ -424,6 +441,7 @@ button{
   cursor: pointer;
 }
 #terminal{
+    font-family: monospace;
     display: none;
     position: absolute;
     bottom: 0;
@@ -443,6 +461,7 @@ button{
   right: 5px;
 }
 .log{
+    font-family: monospace;
     width:100%;
     width: all;
     border: none;
