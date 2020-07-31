@@ -53,7 +53,11 @@ class TerminalModel {
       this.path.children[title]
       && this.path.children[title].type === 'file'
     ) {
-      return eval(this.path.children[title].content);
+      try {
+        return eval(this.path.children[title].content);
+      } catch (err) {
+        return err;
+      }
     }
     return false;
   };
