@@ -41,13 +41,13 @@ function find(input, fteInput, ftiInput) {
   const pattern = input;
 
   const filesToExclude = new Map();
-  fteInput.trim().split(',').forEach((value) => {
-    if (value) filesToExclude.set(value, true);
+  fteInput.split(',').forEach((value) => {
+    if (value) filesToExclude.set(value.trim(), true);
   });
 
   const filesToInclude = new Map();
-  ftiInput.trim().split(',').forEach((value) => {
-    if (value) filesToInclude.set(value, true);
+  ftiInput.split(',').forEach((value) => {
+    if (value) filesToInclude.set(value.trim(), true);
   });
 
   this.view.clearResultList();

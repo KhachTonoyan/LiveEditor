@@ -2,15 +2,15 @@ import controller from './SearchController.js';
 // import File from '../Entities/File.js';
 // import Folder from '../Entities/Folder.js';
 
-// mock data
+// // mock data
 // const root = new Folder('root', null, null, 'root');
 // const ch = new Folder('src', root);
 
 // root.children = {
-//   'aloha.js': new File('aloha.js', root, `${'aloha'.repeat(1000)}`),
-//   'a.js': new File('a.js', root, `${'a'.repeat(200)}`),
-//   'hidden.js': new File('hidden.js', root, `${'He-he, i am a hidden message'}`),
-//   'htmlTest.js': new File('htmlTest.js', root, `${document.getElementById('content').value}`),
+//   // 'aloha.js': new File('aloha.js', root, `${'aloha'.repeat(1000)}`),
+//   // 'a.js': new File('a.js', root, `${'a'.repeat(200)}`),
+//   'hidden.js': new File('hidden.js', root, `${'hidden'}`),
+//   // 'htmlTest.js': new File('htmlTest.js', root, `${document.getElementById('content').value}`),
 //   src: ch,
 //   fold: new Folder(
 //     'fold',
@@ -20,7 +20,8 @@ import controller from './SearchController.js';
 //     },
 //     'id',
 //   ),
-//   'index.js': new File('index.js', root, `${'hello!\nearly\ncanal\nrodeo\nlate latte'.repeat(10)}`),
+//   // 'index.js': new File('index.js', root, `${'hello!\nearly\ncanal\nrodeo\nlate latte'.repeat(10)}`),
+//   'index.js': new File('index.js', root, `${'index'}`),
 // };
 // ch.children = { data: new Folder('data', {}) };
 // root.children.src.children.data.parent = root.children.src;
@@ -32,7 +33,6 @@ const map = new Map();
 class Search {
   search(root, pattern, filesToExclude, filesToInclude) {
     const values = Object.values(root.children);
-    console.log(values);
     searchUtil(values, pattern, filesToExclude, filesToInclude);
   }
 
