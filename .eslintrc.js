@@ -35,7 +35,8 @@ module.exports = {
     'guard-for-in': 'off',
     'lines-between-class-members': 'off',
     'linebreak-style': 'off',
-    "no-continue":"off"
+    "no-continue":"off",
+    "import/no-extraneous-dependencies":"off"
   },
   parser: 'babel-eslint',
 };
