@@ -1,9 +1,10 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: './src/script.js',
   output: {
     filename: '[contenthash].js',
@@ -15,6 +16,7 @@ module.exports = {
       scriptLoading: 'defer',
     }),
     new CleanWebpackPlugin(),
+    new Dotenv()
   ],
   module: {
     rules: [
@@ -50,4 +52,7 @@ module.exports = {
       },
     ],
   },
+  node: {
+    fs: "empty"
+ }
 };

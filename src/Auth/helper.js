@@ -38,6 +38,7 @@ function authHandler(email, password) {
     .signInWithEmailAndPassword(email, password)
     .then(({ user }) => {
       state.userID = user.uid;
+      state.email = user.email;
       return getData(state.userID);
     });
 }

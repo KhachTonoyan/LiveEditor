@@ -5,14 +5,16 @@ import {
   parseDataFromSv,
 } from './helper.js';
 
+require('dotenv').config();
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyD2hOiJs7HTEcYgaaWGXtwiLnrIw4eE83E',
-  authDomain: 'liveeditorpicsart.firebaseapp.com',
-  databaseURL: 'https://liveeditorpicsart.firebaseio.com',
-  projectId: 'liveeditorpicsart',
-  storageBucket: 'liveeditorpicsart.appspot.com',
-  messagingSenderId: '105636177693',
-  appId: '1:105636177693:web:d86672592b00db8d8f63f4',
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AURH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
 };
 firebase.initializeApp(firebaseConfig);
 
@@ -24,15 +26,31 @@ class Auth {
     this.password = this.authModal.querySelector('#password');
     this.signinBtn = document.getElementById('signin');
     this.signupBtn = document.getElementById('signup');
+    this.signoutBtn = document.getElementById('signout');
     this.save = document.getElementById('save');
     this.closeBtn = this.authModal.querySelector('#closeModal');
     this.errorMessage = this.authModal.querySelector('#errorMessage');
+    this.emailP = document.getElementById('emailP');
 
     this.signinBtn.onclick = this.clickHandler;
     this.signupBtn.onclick = this.clickHandler;
     this.save.onclick = this.onSave;
     this.closeBtn.onclick = this.onClose;
+    this.signoutBtn.onclick = this.signout;
   }
+  signout = () => {
+    firebase.auth().signOut()
+      .then(() => {
+        state.userID = '';
+        state.email = '';
+        this.signinBtn.style.display = 'block';
+        this.signupBtn.style.display = 'block';
+        this.signoutBtn.style.display = 'none';
+        this.emailP.textContent = '';
+      });
+    state.reset();
+  }
+
   clickHandler = ({ target: { id } }) => {
     this.onClickSave(id);
   };
@@ -63,6 +81,11 @@ class Auth {
       .createUserWithEmailAndPassword(email, password)
       .then(({ user }) => {
         state.userID = user.uid;
+        state.email = user.email;
+        this.signinBtn.style.display = 'none';
+        this.signupBtn.style.display = 'none';
+        this.signoutBtn.style.display = 'block';
+        this.emailP.textContent = state.email;
         this.email.value = '';
         this.password.value = '';
         this.authModal.style.display = 'none';
@@ -81,14 +104,16 @@ class Auth {
     const { value: password } = this.password;
     authHandler(email, password)
       .then((val) => {
+        this.signinBtn.style.display = 'none';
+        this.signupBtn.style.display = 'none';
+        this.signoutBtn.style.display = 'block';
+        this.emailP.textContent = state.email;
         this.email.value = '';
         this.password.value = '';
         this.authModal.style.display = 'none';
         this.errorMessage.textContent = '';
         state.root = val ? parseDataFromSv(val) : state.root;
-        console.log(state.root);
         this.save.disabled = false;
-        console.log(this.save);
         state.updateUI();
         state.onAuth();
       })
