@@ -7,7 +7,7 @@ class Controller {
   constructor(view, model) {
     this.view = view;
     this.model = model;
-
+    console.log(State.root);
     this.initView();
   }
 
