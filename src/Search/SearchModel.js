@@ -1,32 +1,4 @@
 import controller from './SearchController.js';
-// import File from '../Entities/File.js';
-// import Folder from '../Entities/Folder.js';
-
-// // mock data
-// const root = new Folder('root', null, null, 'root');
-// const ch = new Folder('src', root);
-
-// root.children = {
-//   // 'aloha.js': new File('aloha.js', root, `${'aloha'.repeat(1000)}`),
-//   // 'a.js': new File('a.js', root, `${'a'.repeat(200)}`),
-//   'hidden.js': new File('hidden.js', root, `${'hidden'}`),
-//   // 'htmlTest.js': new File('htmlTest.js', root, `${document.getElementById('content').value}`),
-//   src: ch,
-//   fold: new Folder(
-//     'fold',
-//     root,
-//     {
-//       'i.js': new File('i.js', { name: 'fold' }, `${'hello \n'.repeat(10)}`),
-//     },
-//     'id',
-//   ),
-//   // 'index.js': new File('index.js', root, `${'hello!\nearly\ncanal\nrodeo\nlate latte'.repeat(10)}`),
-//   'index.js': new File('index.js', root, `${'index'}`),
-// };
-// ch.children = { data: new Folder('data', {}) };
-// root.children.src.children.data.parent = root.children.src;
-// console.log(root);
-
 // memoization container
 const map = new Map();
 
@@ -35,12 +7,6 @@ class Search {
     const values = Object.values(root.children);
     searchUtil(values, pattern, filesToExclude, filesToInclude);
   }
-
-  // works with mock data
-  // search(_, pattern, filesToExclude, filesToInclude) {
-  //   const values = Object.values(root.children);
-  //   searchUtil(values, pattern, filesToExclude, filesToInclude);
-  // }
 }
 
 // global variable "path" to trace the road
