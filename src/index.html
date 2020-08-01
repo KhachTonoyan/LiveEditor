@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Live Editor</title>
+    <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIAD4AgAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgDAAAAKC0PUwAAAAFzUkdCAdnJLH8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAFrUExURQAAABtYWytMoRhL4SpQACtcaTFSu6pXmDVH0hpS7SpSfCZQ2YNKsvk2RbpRcTBE1CJS8AlN2CpRkShS1ytG1rhdedyNjsdhbz5CySJN7xpS5ylQWihU0TNI0LNsiOCcnMJvhDtEzCZP8B9T7CVSsCdC051rkd9qbc9LYBw63SdN6xtS2CtSXSdKwiBA2R071Y1PhJVgjx494B9P7BFQzClRACpReCVJzx891x480B490Rs72x1D7BJU7vUOCc8MFZUQIShQcCpR6CRF4h8+1R07zx890iNH5yFR7dgIFbUMHLsNGpMgDCRP5ilS7yhO6yVI5CFB2iA/1SVK6TpK170KE74KGpYPGFgdFidY5ipV8CZL6yNE4CFA2CRG4ydO6pkIFpsJEq8NGZIhHyNO5idR7yZN7CVJ6CZJ6ydN5aMGFqgJFNULHO8RFR9L3yhR7ipU8S1d7bEbS5sIFK4NISRU4S9k7Q81dSoLDXI6yZIAAAB5dFJOUwAQgjsBKcP/60U+6P////NcAQRp7f////qABAFB7P////2jETfv/////9AgJb/9/////6AXAlDq//////FWEpgVMsDz////vBJWj2kJBC6N6f//1DtmiYcdCE2u7//wXG6jggICJXjR93ZxhWsRAjihkm2VSAEaOwngYvMcAAAAoUlEQVR4nGNgwASMTMzIXBZWNnYOTiQBLm4eXj5+AUG4gJCwiKiYuISkFFxEWkZWTl5BUUkZoUtFVU1dQ1NLG8bX0dXTNzA0MjaBcE3NzC0sraxtbO3sHcACjk7OLpaubu4enl7ePmARXz//gECroOCQ0LDwCKgpkVHRMbFx8QmJSckwg1NS09IzMrOyc3IRluflFxQWFZcge6u0rLwC0+8AwKgc0IZv0rIAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
      <!-- update the version number as needed -->
      <script defer src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
      <!-- include only the Firebase features as you need -->
@@ -37,24 +38,32 @@
             <div id="editor">
                 <textarea id="content"></textarea>
             </div>
-            <div id="authModal">
-                <button id="closeModal"><i class="fas fa-times"></i></button>
-                <p id="errorMessage"></p>
-                <form id="authForm">
-                    <input id="email" type="email" placeholder="Email"/>
-                    <input id="password" type="password" placeholder="Password" />
-                    <button type="submit"><i class="fas fa-sign-in-alt"></i></button>
-                </form>
-            </div>
-            <p id="emailP"></p>
-            <button id="save" disabled><i class="far fa-save"></i></button>
-            <button id="signin">Sign in</button>
-            <button id="signup">Sign up</button>
-            <button id="signout">Sign out</button>
-            <button id="terminalBtn"><i class="fas fa-terminal"></i></button>
-            <div id="terminal">
-                <p class="termNav"><button id="closeTerminal"><i class="fas fa-times"></i></button></p>
-                <div id="terminalContent"></div>
+            <div id="footer">
+                <div id="authModal">
+                    <button id="closeModal"><i class="fas fa-times"></i></button>
+                    <p id="errorMessage"></p>
+                    <form id="authForm">
+                        <div class="email-container">
+                            <i class="fas fa-user"></i>
+                            <input id="email" type="email" placeholder="Email"/>
+                        </div>
+                        <div class="password-container">
+                            <i class="fas fa-unlock-alt"></i>
+                            <input id="password" type="password" placeholder="Password" />
+                        </div>
+                        <button type="submit" id="submit-button"><i class="fas fa-sign-in-alt"></i></button>
+                    </form>
+                </div>
+                <p id="emailP"></p>
+                <button id="save" disabled><i class="far fa-save"></i></button>
+                <button id="signin">Sign in</button>
+                <button id="signup">Sign up</button>
+                <button id="signout">Sign out</button>
+                <button id="terminalBtn"><i class="fas fa-terminal"></i></button>
+                <div id="terminal">
+                    <p class="termNav"><button id="closeTerminal"><i class="fas fa-times"></i></button></p>
+                    <div id="terminalContent"></div>
+                </div>
             </div>
         </div>
     </div>

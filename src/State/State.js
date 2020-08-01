@@ -5,6 +5,7 @@ import { getActiveParent } from '../helper.js';
 class State {
   constructor() {
     this.root = new Folder('Project', null, null, 'root');
+    this.root.expanded = true;
     this.activeTab = null;
     this.tabs = [];
     // this.test = document.getElementById('testState');

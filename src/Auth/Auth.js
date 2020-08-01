@@ -31,6 +31,7 @@ class Auth {
     this.closeBtn = this.authModal.querySelector('#closeModal');
     this.errorMessage = this.authModal.querySelector('#errorMessage');
     this.emailP = document.getElementById('emailP');
+    this.submitButton = document.getElementById('submit-button');
 
     this.signinBtn.onclick = this.clickHandler;
     this.signupBtn.onclick = this.clickHandler;
@@ -64,6 +65,7 @@ class Auth {
   };
   onClickSave = (type) => {
     this.authModal.style.display = 'block';
+    this.submitButton.innerHTML = '<i class="fas fa-sign-in-alt"></i>';
     this.authForm.onsubmit = type === 'signup' ? this.signupWithEmailAndPassword : this.signinWithEmailAndPassword;
   };
 
@@ -77,6 +79,7 @@ class Auth {
 
   signupWithEmailAndPassword = (e) => {
     e.preventDefault();
+    this.submitButton.innerHTML = '<i class="fas fa-spinner"></i> Loading...';
     const { value: email } = this.email;
     const { value: password } = this.password;
     firebase
@@ -96,12 +99,14 @@ class Auth {
         this.save.disabled = false;
       })
       .catch((err) => {
+        this.submitButton.innerHTML = '<i class="fas fa-sign-in-alt"></i>';
         this.errorMessage.textContent = err.message;
       });
   };
 
   signinWithEmailAndPassword = (e) => {
     e.preventDefault();
+    this.submitButton.innerHTML = '<i class="fas fa-spinner"></i> Loading...';
     const { value: email } = this.email;
     const { value: password } = this.password;
     authHandler(email, password)
@@ -120,6 +125,7 @@ class Auth {
         state.onAuth();
       })
       .catch((err) => {
+        this.submitButton.innerHTML = '<i class="fas fa-sign-in-alt"></i>';
         this.errorMessage.textContent = err.message;
       });
   };

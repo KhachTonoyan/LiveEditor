@@ -19,7 +19,7 @@ class ExplorerView {
     this.rootContainerTitle = createElement('li');
     this.selectedElement = this.rootContainerTitle;
     this.selectedElementPath = '';
-    this.rootContainerTitle.classList.add('folder');
+    this.rootContainerTitle.classList.add('folder', 'expand');
     this.rootContainerTitle.setAttribute('data-name', 'Project');
 
     this.rootContainerTitle.addEventListener('click', this.setSelectedElement);
