@@ -34,9 +34,9 @@ class TerminalView {
     const main = document.createElement('p');
     main.classList.add('main');
     main.innerHTML = `
-              <p class="path">${path}</p>
-              ${ok === undefined ? '<p class="logP"><input class="log activLog" maxlength="60"/></p>' : ''}
-              `;
+      <p class="path">${path}</p>
+      ${ok === undefined ? '<p class="logP"><input class="log activLog" maxlength="60"/></p>' : ''}
+    `;
     this.terminalContent.append(main);
     this.activInput = main.querySelector('.activLog');
     if (this.activInput) {
@@ -61,11 +61,11 @@ class TerminalView {
     terminalCommandsHandler.call(this, value);
   }
 
-    halp = () => {
-      commandHelp.call(this);
-    }
+  halp = () => {
+    commandHelp.call(this);
+  }
 
-    // binding
+  // binding
   bindOnGetPath = (cb) => {
     this.getPath = cb;
   }

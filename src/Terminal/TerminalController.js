@@ -1,6 +1,6 @@
 import TerminalModel from './TerminalModel.js';
 import TerminalView from './TerminalView.js';
-import state from '../State/State.js';
+import state from '../_common/State/State.js';
 
 class TerminalController {
   constructor(model, view) {
