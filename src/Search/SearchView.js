@@ -27,7 +27,7 @@ class SearchView {
     topPanel.appendChild(this.filesInclude);
 
     const fieldNameFilesToExclude = document.createElement('p');
-    fieldNameFilesToExclude.textContent = 'Files to exlude (comma-separated):';
+    fieldNameFilesToExclude.textContent = 'Files to exclude (comma-separated):';
     fieldNameFilesToExclude.style.marginBottom = '1px';
     topPanel.appendChild(fieldNameFilesToExclude);
 
