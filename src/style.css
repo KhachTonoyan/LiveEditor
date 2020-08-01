@@ -3,6 +3,7 @@
   height: 100%;
   background-color: #252525;
   display: flex;
+  position: fixed;
 }
 
 #tab {
@@ -409,7 +410,7 @@ body.resizing {
 /*Start:: search*/
 
 .searchPanel {
-  background-color: rgba(37, 37, 38, 85%);
+  background-color: rgba(37, 37, 38, 98%);
   color: #0e6b0e;
   width: 700px;
   overflow: auto;

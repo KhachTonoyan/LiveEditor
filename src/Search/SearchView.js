@@ -107,7 +107,7 @@ function drag(element) {
   function closedrag() {
     document.onmouseup = null;
     document.onmousemove = null;
-    element.style.opacity = '85%';
+    element.style.opacity = '98%';
   }
 }
 
