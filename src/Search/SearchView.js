@@ -41,6 +41,7 @@ class SearchView {
     closeButton.textContent = 'X';
     closeButton.onclick = () => {
       document.getElementById('app').removeChild(this.searchPanel);
+      this.isSearchPanelOpen = false;
     };
     this.searchPanel.appendChild(closeButton);
 
@@ -48,10 +49,18 @@ class SearchView {
 
     this.resultsPanel = document.createElement('div');
     this.searchPanel.appendChild(this.resultsPanel);
+
+    this.isSearchPanelOpen = false;
   }
 
   openSearchWindow() {
-    document.getElementById('app').appendChild(this.searchPanel);
+    if(!this.isSearchPanelOpen) {
+      document.getElementById('app').appendChild(this.searchPanel);
+      this.isSearchPanelOpen = true;
+    } else {
+      document.getElementById('app').removeChild(this.searchPanel);
+      this.isSearchPanelOpen = false;
+    }
   }
 
   printResults(path) {

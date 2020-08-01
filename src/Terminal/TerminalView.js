@@ -4,6 +4,7 @@ const openTerminal = document.getElementById('terminalBtn');
 const terminal = document.getElementById('terminal');
 const closeTerminal = terminal.querySelector('#closeTerminal');
 const terminalContent = terminal.querySelector('#terminalContent');
+const container = document.getElementById('container');
 
 class TerminalView {
   constructor() {
@@ -14,7 +15,8 @@ class TerminalView {
     this.activInput = null;
 
     this.openTerminalButton.onclick = () => {
-      this.terminal.style.display = 'block';
+      this.terminal.style.display = this.terminal.style.display === 'block' ? 'none' : 'block';
+      container.classList.toggle('terminal-open');
       this.putPath(`${this.getPath()}>`);
     };
     this.terminal.onclick = () => {
@@ -22,6 +24,7 @@ class TerminalView {
     };
     this.closeTerminal.onclick = () => {
       this.terminal.style.display = 'none';
+      container.classList.toggle('terminal-open');
       this.terminalContent.innerHTML = '';
     };
   }
