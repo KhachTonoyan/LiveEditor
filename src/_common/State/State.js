@@ -13,6 +13,7 @@ class State {
     //   console.log(this.root, 'root')
     // };
   }
+
   create = (name, type, active) => {
     const activeFolder = getActiveParent(active); // folder is returned
     if (activeFolder.children[name]) return false;
@@ -24,16 +25,19 @@ class State {
     this.updateUI();
     return true;
   };
+
   reset = () => {
     this.root = new Folder('Project', null, null, 'root');
     this.onAuth();
-  }
+  };
+
   remove = (active) => {
     if (!active.parent || !active.parent.children[active.name]) return false;
     delete active.parent.children[active.name];
     this.updateUI();
     return true;
   };
+
   rename(active, newName) {
     if (!active.parent.children[active.name]) return false;
     active.parent.children[newName] = active.parent.children[active.name];
@@ -42,6 +46,7 @@ class State {
     this.updateUI();
     return true;
   }
+
   myRename(active, newName) {
     if (active.name !== newName) {
       Object.defineProperty(
@@ -59,6 +64,7 @@ class State {
     this.updateTabsInState(active, 'rename');
     return true;
   }
+
   onAuth = () => {
     this.tabs = [];
     this.activeTab = null;
@@ -67,19 +73,24 @@ class State {
     this.explorerViewActive();
     this.updateUI();
   };
+
   updateUI() {
     this.updateTerminal();
     this.renderExplorer();
   }
+
   bindUpdateExplorerModel(cb) {
     this.updateExplorerModel = cb;
   }
+
   bindUpdateTerminal(cb) {
     this.updateTerminal = cb;
   }
+
   bindRenderExplorer(cb) {
     this.renderExplorer = cb;
   }
+
   updateTabsInState = (file, operation) => {
     if (operation === 'select') {
       this.activeTab = file;
@@ -115,17 +126,19 @@ class State {
     }
     this.updateTabsInModel(this.activeTab, operation, this.tabs);
   };
+
   saveTabContent = (file, content) => {
     if (file) {
       file.content = content;
     }
   };
+
   bindUpdateTabsInModel = (cb) => {
     this.updateTabsInModel = cb;
   };
 
   bindExplorerViewActive = (cb) => {
     this.explorerViewActive = cb;
-  }
+  };
 }
 export default new State();
