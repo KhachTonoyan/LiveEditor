@@ -39,6 +39,7 @@ class Auth {
     this.closeBtn.onclick = this.onClose;
     this.signoutBtn.onclick = this.signout;
   }
+
   signout = () => {
     firebase.auth().signOut()
       .then(() => {
@@ -48,6 +49,7 @@ class Auth {
         this.signupBtn.style.display = 'block';
         this.signoutBtn.style.display = 'none';
         this.emailP.textContent = '';
+        this.save.disabled = true;
       });
     state.reset();
   }
@@ -74,6 +76,7 @@ class Auth {
       root: newRoot,
     });
   };
+
   signupWithEmailAndPassword = (e) => {
     e.preventDefault();
     this.submitButton.innerHTML = '<i class="fas fa-spinner"></i> Loading...';
@@ -96,7 +99,6 @@ class Auth {
         this.save.disabled = false;
       })
       .catch((err) => {
-        console.log(err);
         this.submitButton.innerHTML = '<i class="fas fa-sign-in-alt"></i>';
         this.errorMessage.textContent = err.message;
       });
@@ -123,7 +125,6 @@ class Auth {
         state.onAuth();
       })
       .catch((err) => {
-        console.log(err);
         this.submitButton.innerHTML = '<i class="fas fa-sign-in-alt"></i>';
         this.errorMessage.textContent = err.message;
       });
