@@ -38,6 +38,7 @@ class Auth {
     this.closeBtn.onclick = this.onClose;
     this.signoutBtn.onclick = this.signout;
   }
+
   signout = () => {
     firebase.auth().signOut()
       .then(() => {
@@ -47,6 +48,7 @@ class Auth {
         this.signupBtn.style.display = 'block';
         this.signoutBtn.style.display = 'none';
         this.emailP.textContent = '';
+        this.save.disabled = true;
       });
     state.reset();
   }
@@ -72,6 +74,7 @@ class Auth {
       root: newRoot,
     });
   };
+
   signupWithEmailAndPassword = (e) => {
     e.preventDefault();
     const { value: email } = this.email;
@@ -93,7 +96,6 @@ class Auth {
         this.save.disabled = false;
       })
       .catch((err) => {
-        console.log(err);
         this.errorMessage.textContent = err.message;
       });
   };
@@ -118,7 +120,6 @@ class Auth {
         state.onAuth();
       })
       .catch((err) => {
-        console.log(err);
         this.errorMessage.textContent = err.message;
       });
   };
