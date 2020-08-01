@@ -1,4 +1,4 @@
-import state from '../State/State.js';
+import state from '../_common/State/State.js';
 
 class TerminalModel {
   constructor() {
@@ -45,7 +45,8 @@ class TerminalModel {
       || !this.path.children[title].type === 'file'
     ) {
       return `Can't open file ${title}`;
-    } state.updateTabsInState(this.path.children[title], 'select');
+    }
+    state.updateTabsInState(this.path.children[title], 'select');
   };
 
   runFile = (title) => {

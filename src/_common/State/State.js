@@ -1,6 +1,6 @@
 import File from '../Entities/File.js';
 import Folder from '../Entities/Folder.js';
-import { getActiveParent } from '../helper.js';
+import { getActiveParent } from '../../helper.js';
 
 class State {
   constructor() {
@@ -65,7 +65,7 @@ class State {
     this.updateTabsInState(null);
     this.updateExplorerModel(this.root);
     this.explorerViewActive();
-    this.renderExplorer();
+    this.updateUI();
   };
   updateUI() {
     this.updateTerminal();

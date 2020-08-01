@@ -1,4 +1,4 @@
-import state from '../State/State.js';
+import state from '../_common/State/State.js';
 import {
   newRootForJSON,
   authHandler,
@@ -71,7 +71,6 @@ class Auth {
 
   onSave = () => {
     const newRoot = JSON.stringify(newRootForJSON(state.root));
-    console.log(newRoot);
     firebase.database().ref(`data/${state.userID}`).set({
       root: newRoot,
     });
