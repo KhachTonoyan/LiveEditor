@@ -52,17 +52,19 @@ class Auth {
         this.save.disabled = true;
       });
     state.reset();
-  }
+  };
 
   clickHandler = ({ target: { id } }) => {
     this.onClickSave(id);
   };
+
   onClose = () => {
     this.authModal.style.display = 'none';
     this.email.value = '';
     this.password.value = '';
     this.errorMessage.textContent = '';
   };
+
   onClickSave = (type) => {
     this.authModal.style.display = 'block';
     this.submitButton.innerHTML = '<i class="fas fa-sign-in-alt"></i>';
@@ -120,7 +122,6 @@ class Auth {
         this.errorMessage.textContent = '';
         state.root = val ? parseDataFromSv(val) : state.root;
         this.save.disabled = false;
-        state.updateUI();
         state.onAuth();
       })
       .catch((err) => {
