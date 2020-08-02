@@ -10,6 +10,9 @@ body {
   position: fixed;
   font-family: 'Roboto Mono', monospace;
 }
+.font{
+  font-family: 'Roboto Mono', monospace;
+}
 
 #tab {
   width: 100%;
@@ -391,14 +394,14 @@ li.file.html:before {
   color: #fff;
   border-radius: 20%;
   bottom: 5px;
-  left: 67px;
+  left: 83px;
 }
 #emailP{
   position: absolute;
   padding: 5px;
   color: #fff;
   bottom: 6px;
-  left: 68px;
+  left: 84px;
 }
 
 #save{
