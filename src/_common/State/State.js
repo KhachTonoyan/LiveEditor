@@ -8,10 +8,6 @@ class State {
     this.root.expanded = true;
     this.activeTab = null;
     this.tabs = [];
-    // this.test = document.getElementById('testState');
-    // this.test.onclick = () => {
-    //   console.log(this.root, 'root')
-    // };
   }
 
   create = (name, type, active) => {
