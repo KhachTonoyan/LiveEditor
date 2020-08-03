@@ -66,6 +66,7 @@ class SearchView {
 
   printResults(path) {
     const res = document.createElement('p');
+    res.className = 'res';
     res.textContent = path;
     this.resultsPanel.insertAdjacentElement('beforeend', res);
   }
@@ -74,6 +75,9 @@ class SearchView {
     this.resultsPanel.innerHTML = '';
   }
 }
+
+// makes the search window moveable by calculating new (x,y) possition on the window plabe
+// during the move operation the window is almost invisible so the user can see what's going on beneath
 
 function drag(element) {
   let x = 0;

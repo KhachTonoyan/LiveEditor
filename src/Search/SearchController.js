@@ -16,6 +16,8 @@ class Controller {
       this.view.openSearchWindow();
     });
 
+    // search starts after a 1000ms delay to make sure the user stopped typing
+
     document.getElementById('app').addEventListener('keydown', (event) => {
       clearTimeout(timer);
       timer = setTimeout(helper.bind(this, event), 1000);
