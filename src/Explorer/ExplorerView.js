@@ -61,11 +61,6 @@ class ExplorerView {
       container.classList.toggle('explorer-closed');
       explorer.classList.toggle('explorer-closed');
     });
-
-    // this.test = getElement('test');
-    // this.test.onclick =() => {
-    //   console.log(this.root, this.selectedElement)
-    // }
   }
 
   clearJSEvents = () => {
