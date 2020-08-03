@@ -558,6 +558,12 @@ body.resizing {
   padding-left: 4px;
 }
 
+.res {
+  margin-left: 10px;
+  font-weight: 100px;
+  font-size: small;
+}
+
 /*End :: search*/
 
 /* Terminal */
