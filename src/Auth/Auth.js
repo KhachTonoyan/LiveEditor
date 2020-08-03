@@ -1,4 +1,4 @@
-import state from '../State/State.js';
+import state from '../_common/State/State.js';
 import {
   newRootForJSON,
   authHandler,
@@ -52,17 +52,19 @@ class Auth {
         this.save.disabled = true;
       });
     state.reset();
-  }
+  };
 
   clickHandler = ({ target: { id } }) => {
     this.onClickSave(id);
   };
+
   onClose = () => {
     this.authModal.style.display = 'none';
     this.email.value = '';
     this.password.value = '';
     this.errorMessage.textContent = '';
   };
+
   onClickSave = (type) => {
     this.authModal.style.display = 'block';
     this.submitButton.innerHTML = '<i class="fas fa-sign-in-alt"></i>';
@@ -71,7 +73,6 @@ class Auth {
 
   onSave = () => {
     const newRoot = JSON.stringify(newRootForJSON(state.root));
-    console.log(newRoot);
     firebase.database().ref(`data/${state.userID}`).set({
       root: newRoot,
     });
@@ -121,7 +122,6 @@ class Auth {
         this.errorMessage.textContent = '';
         state.root = val ? parseDataFromSv(val) : state.root;
         this.save.disabled = false;
-        state.updateUI();
         state.onAuth();
       })
       .catch((err) => {

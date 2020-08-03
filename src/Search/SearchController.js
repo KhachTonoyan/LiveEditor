@@ -1,13 +1,12 @@
 import SearchModel from './SearchModel.js';
 import SearchView from './SearchView.js';
-import State from '../State/State.js';
+import State from '../_common/State/State.js';
 
 let timer = null;
 class Controller {
   constructor(view, model) {
     this.view = view;
     this.model = model;
-    console.log(State.root);
     this.initView();
   }
 

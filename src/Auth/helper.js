@@ -1,4 +1,4 @@
-import state from '../State/State.js';
+import state from '../_common/State/State.js';
 
 function newRootForJSON(root) {
   function getRoot(root) {

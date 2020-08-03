@@ -1,5 +1,5 @@
 import { getActiveParent } from '../helper.js';
-import state from '../State/State.js';
+import state from '../_common/State/State.js';
 
 class ExplorerModel {
   constructor() {
@@ -7,10 +7,6 @@ class ExplorerModel {
     this.active = this.root;
     this.updateTabs = state.updateTabsInState;
     state.bindUpdateExplorerModel(this.updateRootWhenDataFetched);
-    // this.test = document.getElementById('testModel');
-    // this.test.onclick = () => {
-    //   console.log(this.root, this.active)
-    // }
   }
 
   toggleExpanded = () => {
