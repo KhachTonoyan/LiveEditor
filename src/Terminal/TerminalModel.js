@@ -64,20 +64,20 @@ class TerminalModel {
   };
 
   create = (type, name) => {
-    if (!state.create(name, type, this.path)) return 'You have file or folder in the same name';
+    if (!state.create(name, type, this.path, 'terminal')) return 'You have file or folder in the same name';
     return `You create ${name}`;
   };
 
   remove = (name) => {
     if (this.path.children[name]) {
-      return state.remove(this.path.children[name]);
+      return state.remove(this.path.children[name], 'terminal');
     }
     return false;
   };
 
   rename = (oldName, newName) => {
     if (this.path.children[oldName] && !this.path.children[newName]) {
-      return state.rename(this.path.children[oldName], newName);
+      return state.rename(this.path.children[oldName], newName, 'terminal');
     }
     return false;
   };
