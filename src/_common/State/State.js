@@ -10,7 +10,7 @@ class State {
     this.tabs = [];
   }
 
-  create = (name, type, active) => {
+  create = (name, type, active, from) => {
     const activeFolder = getActiveParent(active); // folder is returned
     if (activeFolder.children[name]) return false;
     if (type === 'file') {
@@ -18,7 +18,7 @@ class State {
     } else {
       activeFolder.children[name] = new Folder(name, activeFolder);
     }
-    this.updateUI();
+    this.updateUI(from);
     return true;
   };
 
@@ -27,19 +27,19 @@ class State {
     this.onAuth();
   };
 
-  remove = (active) => {
+  remove = (active, from) => {
     if (!active.parent || !active.parent.children[active.name]) return false;
     delete active.parent.children[active.name];
-    this.updateUI();
+    this.updateUI(from);
     return true;
   };
 
-  rename(active, newName) {
+  rename(active, newName, from) {
     if (!active.parent.children[active.name]) return false;
     active.parent.children[newName] = active.parent.children[active.name];
     delete active.parent.children[active.name];
     active.parent.children[newName].name = newName;
-    this.updateUI();
+    this.updateUI(from);
     return true;
   }
 
@@ -70,8 +70,8 @@ class State {
     this.updateUI();
   };
 
-  updateUI() {
-    this.updateTerminal();
+  updateUI(from) {
+    if (from !== 'terminal') this.updateTerminal();
     this.renderExplorer();
   }
 
