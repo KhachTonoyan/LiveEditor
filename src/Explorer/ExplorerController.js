@@ -16,6 +16,7 @@ class ExplorerController {
     this.view.bindExpandInModel(this.model.expand);
     this.view.bindClickRemove(this.model.remove);
     this.view.bindRename(this.model.rename);
+    this.view.bindMove(this.model.move);
   }
 }
 

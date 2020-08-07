@@ -294,6 +294,14 @@ li.file.html:before {
 }
 /*End:: Explorer*/
 
+/*Begin:: Explorer drag&drop*/
+
+.droppable-hover {
+  background-color: rgba(112, 3, 94, 0.5)
+}
+
+/*End:: Explorer drag&drop*/
+
 /* auth */
 
 #errorMessage{

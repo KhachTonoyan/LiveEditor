@@ -7,6 +7,8 @@ class ExplorerModel {
     this.active = this.root;
     this.updateTabs = state.updateTabsInState;
     state.bindUpdateExplorerModel(this.updateRootWhenDataFetched);
+    state.bindGetActive(this.getActive);
+    this.move = state.move;
   }
 
   toggleExpanded = () => {
@@ -79,6 +81,17 @@ class ExplorerModel {
   updateRootWhenDataFetched = (root) => {
     this.root = root;
     this.active = this.root;
+  };
+
+  getActive = () => {
+    let path = [];
+    let el = this.active;
+    while(el.parent) {
+      path.unshift(el.name);
+      el = el.parent;
+    }
+    path.unshift(el.name);
+    return path;
   }
 }
 

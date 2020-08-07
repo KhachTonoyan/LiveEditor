@@ -34,6 +34,29 @@ class State {
     return true;
   };
 
+  move = (entityPath, givenPath) => {
+    let newEntityPath = entityPath.slice(1);
+    let el = this.root;
+    for(let path of newEntityPath) {
+      el = el.children[path];
+    }
+    let parent = el.parent;
+    delete parent.children[el.name];
+    el.parent = null;
+
+    let newParent = this.root;
+    let newPath = givenPath.slice(1);
+    for(let path of newPath) {
+      newParent = newParent.children[path];
+    }
+
+    newParent.children[el.name] = el;
+    el.parent = newParent;
+    const modelActive = this.getActive();
+
+    return [this.updateUI(), modelActive]
+  };
+
   rename(active, newName, from) {
     if (!active.parent.children[active.name]) return false;
     active.parent.children[newName] = active.parent.children[active.name];
@@ -135,6 +158,10 @@ class State {
 
   bindExplorerViewActive = (cb) => {
     this.explorerViewActive = cb;
+  };
+
+  bindGetActive = (cb) => {
+    this.getActive = cb;
   };
 }
 export default new State();
