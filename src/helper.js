@@ -58,6 +58,15 @@ function getDirectChild(el, dataName) {
   return childElem;
 }
 
+function getPath(el) {
+  let path = [];
+  while(el.id !== 'root') {
+    path.unshift(el.dataset.name);
+    el = el.parentElement.parentElement;
+  }
+  return path;
+}
+
 export {
-  createElement, getElement, isFile, getActiveParent, sortExplorer, checkExtension, getDirectChild,
+  createElement, getElement, isFile, getActiveParent, sortExplorer, checkExtension, getDirectChild, getPath
 };

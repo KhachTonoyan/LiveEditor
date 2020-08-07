@@ -1,5 +1,5 @@
 import {
-  createElement, getElement, sortExplorer, checkExtension, getDirectChild,
+  createElement, getElement, sortExplorer, checkExtension, getDirectChild, getPath,
 } from '../helper.js';
 
 class ExplorerView {
@@ -19,12 +19,18 @@ class ExplorerView {
     this.rootContainerTitle = createElement('li');
     this.selectedElement = this.rootContainerTitle;
     this.selectedElementPath = '';
-    this.rootContainerTitle.classList.add('folder', 'expand');
+    this.rootContainerTitle.classList.add('folder', 'expand', 'droppable');
     this.rootContainerTitle.setAttribute('data-name', 'Project');
 
     this.rootContainerTitle.addEventListener('click', this.setSelectedElement);
     this.rootContainerTitle.addEventListener('click', this.getPath);
     this.rootContainerTitle.addEventListener('click', this.expand);
+
+    this.rootContainerTitle.addEventListener('mousedown', this.mouseDown);
+    this.currentDroppable = null;
+    this.draggingElement = null;
+    this.copiedElementCreated = false;
+    this.moveCounter = 0;
 
     this.rootContainerTitleText = createElement('span');
     this.rootContainerTitleText.innerHTML = 'Project';
@@ -93,6 +99,7 @@ class ExplorerView {
     this.highlight(el);
 
     this.selectedElement = el;
+    this.selectedElementPath = path;
   };
 
   clickCreate = (type) => {
@@ -279,6 +286,130 @@ class ExplorerView {
     this.overlay.style.display = 'none';
   };
 
+  mouseDown = (e) => {
+    const self = this;
+    const mouseDownEvent = e;
+    const target = e.target.closest('.draggable');
+    this.draggingElement = target;
+
+    if (!target) return;
+
+    let shiftX = mouseDownEvent.clientX - target.getBoundingClientRect().left;
+    let shiftY = mouseDownEvent.clientY - target.getBoundingClientRect().top;
+    let copiedTarget = target.cloneNode(true);
+
+    function moveAt(pageX, pageY) {
+      copiedTarget.style.left = pageX - shiftX + 'px';
+      copiedTarget.style.top = pageY - shiftY + 'px';
+    }
+
+    function miangamkanchvoxfunction() {
+      self.copiedElementCreated = true;
+
+      if(copiedTarget.lastElementChild.tagName === 'UL') {
+        copiedTarget.lastElementChild.remove();
+      }
+      copiedTarget.style.listStyleType = 'none';
+      copiedTarget.style.position = 'absolute';
+      copiedTarget.style.zIndex = 1000;
+      copiedTarget.firstElementChild.classList.remove('selected');
+      document.body.append(copiedTarget);
+
+      moveAt(mouseDownEvent.pageX, mouseDownEvent.pageY);
+
+      document.onmouseup = (e) => {
+        self.copiedElementCreated = false;
+        self.moveCounter = 0;
+
+        if (!self.currentDroppable || !self.draggingElement) {
+          self.draggingElement = null;
+
+          document.removeEventListener('mousemove', onMouseMove);
+          copiedTarget.onmouseup = null;
+
+          copiedTarget.remove();
+          if (self.currentDroppable) {
+            leaveDroppable(self.currentDroppable);
+          }
+          return
+        }
+
+
+        let dragEl = self.draggingElement;
+        let dragPath = getPath(dragEl);
+
+        let dropEl = self.currentDroppable;
+        let dropPath = getPath(dropEl);
+
+        copiedTarget.remove();
+        if (self.currentDroppable) {
+          leaveDroppable(self.currentDroppable);
+        }
+
+
+        const modelActivePath = self.move(dragPath, dropPath)[1];
+        self.highlightByGivenPath(modelActivePath);
+        self.draggingElement = null;
+
+        document.removeEventListener('mousemove', onMouseMove);
+        document.onmouseup = null;
+      };
+    }
+
+    function onMouseMove(event) {
+      self.moveCounter++;
+      if(!self.copiedElementCreated && self.moveCounter > 10) {
+        miangamkanchvoxfunction();
+      }
+
+      moveAt(event.pageX, event.pageY);
+
+      copiedTarget.hidden = true;
+      let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+      copiedTarget.hidden = false;
+      let droppableEl;
+      if(elemBelow) {
+        droppableEl = elemBelow.closest('.droppable');
+      } else {
+        return
+      }
+
+      if (self.currentDroppable !== droppableEl) {
+        if (self.currentDroppable) {
+          leaveDroppable(self.currentDroppable);
+        }
+        self.currentDroppable = droppableEl;
+        if (self.currentDroppable) {
+          enterDroppable(self.currentDroppable);
+        }
+      }
+
+      if(target.contains(self.currentDroppable)) {
+        leaveDroppable(self.currentDroppable);
+        self.currentDroppable = null;
+      }
+
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    document.addEventListener('mouseup', () => {
+      document.removeEventListener('mousemove', onMouseMove)
+    });
+
+    function enterDroppable(elem) {
+      elem.style.background = '#3A3D3F';
+    }
+
+    function leaveDroppable(elem) {
+      elem.style.background = '';
+    }
+
+    copiedTarget.ondragstart = function() {
+      return false;
+    };
+  };
+
   renderExplorer(rootObj, list) {
     this.list.innerHTML = '';
     const self = this;
@@ -292,7 +423,7 @@ class ExplorerView {
           if (rootObj.children[key].type === 'file') {
             const listFileItem = document.createElement('li');
             listFileItem.setAttribute('data-name', key);
-            listFileItem.classList.add('file', `${checkExtension(key)}`);
+            listFileItem.classList.add('file', `${checkExtension(key)}`, 'draggable');
             listFileItem.addEventListener('click', self.setSelectedElement);
             const span = createElement('span');
             span.innerHTML = key;
@@ -305,7 +436,7 @@ class ExplorerView {
             if (rootObj.children[key].expanded) {
               listFolderItem.classList.add('expand');
             }
-            listFolderItem.classList.add('folder');
+            listFolderItem.classList.add('folder', 'draggable', 'droppable');
             const span = createElement('span');
             span.innerHTML = key;
             listFolderItem.append(span);
@@ -332,6 +463,17 @@ class ExplorerView {
   highlight = (newElem) => {
     this.selectedElement.querySelector('span').classList.remove('selected');
     newElem.querySelector('span').classList.add('selected');
+  };
+
+  highlightByGivenPath = (givenPath) => {
+    let el = this.root;
+    for(let path of givenPath) {
+      el = getDirectChild(el, path)
+    }
+
+    this.highlight(el);
+    this.selectedElement = el;
+    this.selectedElementPath = givenPath;
   };
 
   getPath = (e) => {
@@ -391,6 +533,10 @@ class ExplorerView {
 
   bindRename(cb) {
     this.rename = cb;
+  }
+
+  bindMove(cb) {
+    this.move = cb;
   }
 }
 
