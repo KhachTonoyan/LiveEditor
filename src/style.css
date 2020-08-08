@@ -300,6 +300,21 @@ li.file.html:before {
   background-color: rgba(112, 3, 94, 0.5)
 }
 
+.same-name-warning {
+  padding: 10px;
+  position: fixed;
+  top: 40px;
+  left: 70px;
+  width: 200px;
+  border-radius: 4px;
+  background-color: rgba(24, 20, 20, 0.9);
+  color: #E44D26;
+  text-align: center;
+  font-size: 14px;
+  line-height: 12px;
+  border: 1px solid #E44D26;
+
+}
 /*End:: Explorer drag&drop*/
 
 /* auth */

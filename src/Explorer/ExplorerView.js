@@ -325,7 +325,7 @@ class ExplorerView {
           self.draggingElement = null;
 
           document.removeEventListener('mousemove', onMouseMove);
-          copiedTarget.onmouseup = null;
+          document.onmouseup = null;
 
           copiedTarget.remove();
           if (self.currentDroppable) {
@@ -334,6 +334,31 @@ class ExplorerView {
           return
         }
 
+        const draggableName = self.draggingElement.dataset.name;
+        const droppableChildren = self.currentDroppable.lastElementChild.children;
+        let isExist = false;
+
+        for(let droppableChild of droppableChildren) {
+          if(draggableName === droppableChild.dataset.name && self.draggingElement !== droppableChild) {
+            isExist = true
+          }
+        }
+
+        if(isExist) {
+          self.showWarning(self.draggingElement.dataset.name, self.currentDroppable.dataset.name);
+
+          self.draggingElement = null;
+
+          copiedTarget.remove();
+          if (self.currentDroppable) {
+            leaveDroppable(self.currentDroppable);
+          }
+          isExist = false;
+
+          document.removeEventListener('mousemove', onMouseMove);
+          document.onmouseup = null;
+          return
+        }
 
         let dragEl = self.draggingElement;
         let dragPath = getPath(dragEl);
@@ -408,6 +433,15 @@ class ExplorerView {
     copiedTarget.ondragstart = function() {
       return false;
     };
+  };
+
+  showWarning = (dragEl, dropEl) => {
+    const warning = createElement('div', null, 'same-name-warning');
+    warning.textContent = `There is file or folder with '${dragEl}' name in '${dropEl}' folder`;
+    document.body.append(warning);
+    setTimeout(() => {
+      warning.remove()
+    }, 2000)
   };
 
   renderExplorer(rootObj, list) {
