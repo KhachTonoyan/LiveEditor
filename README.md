@@ -4,8 +4,9 @@
 # Screenshot
 ![screenshot of app](https://img.techpowerup.org/200803/selection-722.png)
 
-**Live Editor** is a firebase-enabled (with online database and authentication system) editor written in VanillaJS using MVC structural pattern in the core.
+**Demo** https://liveeditorpicsart.web.app/
 
+**Live Editor** is a firebase-enabled (with online database and authentication system) editor written in VanillaJS using MVC structural pattern in the core.
 With Live Editor you can:
   - Search in whole project ( using Knuth-Morris-Pratt algorithm, which has time complexity O(n+m) and space complexity O(m) )
   - Use Terminal with bunch of useful commands
